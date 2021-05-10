@@ -1,6 +1,7 @@
 grammar cn.simbaba.mydsl.Jp with org.eclipse.xtext.xbase.Xbase
 
-generate jp "http://www.simbaba.cn/mydsl/Jp"
+//generate jp "http://www.simbaba.cn/mydsl/Jp"
+import "http://www.simbaba.cn/mydsl/Jp"
 
 import "http://www.eclipse.org/xtext/xbase/Xbase"
 import "http://www.eclipse.org/xtext/common/JavaVMTypes" as types
@@ -15,19 +16,19 @@ JpModel:
 
 JpScript:
 	'script' name=ValidID 'by' author=ID (=>'extends' superType=JvmParameterizedTypeReference)? 
-	operations+=Operation*
-	scriptBody=ScriptBody
+	operations+=JpOperation*
+	scriptBody=JpScriptBody
 ;
 
-ScriptBody returns XBlockExpression:
+JpScriptBody returns XBlockExpression:
 	{ScriptBody}
 	(expressions+=JpStatementOrBlock ';'?)*
 ;
 
 JpElement:
-	PackageDeclaration | JpClass;
+	JpPackageDeclaration | JpClass;
 
-PackageDeclaration:
+JpPackageDeclaration:
 	'package' name=QualifiedName '{'
 		elements+=JpElement*
 	'}'
@@ -35,19 +36,19 @@ PackageDeclaration:
 
 JpClass:
 	'class' name=ValidID ('extends' superType=JvmParameterizedTypeReference)? '{'
-		features+=Feature*
+		features+=JpFeature*
 	'}'
 ;
 
-Feature:
-	Property | Operation
+JpFeature:
+	JpProperty | JpOperation
 ;
 
-Property:
+JpProperty:
 	name=ValidID ':' type=JvmTypeReference
 ;
 
-Operation:
+JpOperation:
 	'def' name=ValidID '(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' (':' type=JvmTypeReference)?
 	body=XBlockExpression
 ;

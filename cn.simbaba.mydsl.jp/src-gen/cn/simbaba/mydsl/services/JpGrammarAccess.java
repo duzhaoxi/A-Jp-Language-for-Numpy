@@ -79,20 +79,20 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		private final Assignment cSuperTypeAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
 		private final RuleCall cSuperTypeJvmParameterizedTypeReferenceParserRuleCall_4_1_0 = (RuleCall)cSuperTypeAssignment_4_1.eContents().get(0);
 		private final Assignment cOperationsAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cOperationsOperationParserRuleCall_5_0 = (RuleCall)cOperationsAssignment_5.eContents().get(0);
+		private final RuleCall cOperationsJpOperationParserRuleCall_5_0 = (RuleCall)cOperationsAssignment_5.eContents().get(0);
 		private final Assignment cScriptBodyAssignment_6 = (Assignment)cGroup.eContents().get(6);
-		private final RuleCall cScriptBodyScriptBodyParserRuleCall_6_0 = (RuleCall)cScriptBodyAssignment_6.eContents().get(0);
+		private final RuleCall cScriptBodyJpScriptBodyParserRuleCall_6_0 = (RuleCall)cScriptBodyAssignment_6.eContents().get(0);
 		
 		//JpScript:
 		//    'script' name=ValidID 'by' author=ID (=>'extends' superType=JvmParameterizedTypeReference)?
-		//    operations+=Operation*
-		//    scriptBody=ScriptBody
+		//    operations+=JpOperation*
+		//    scriptBody=JpScriptBody
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'script' name=ValidID 'by' author=ID (=>'extends' superType=JvmParameterizedTypeReference)?
-		//operations+=Operation*
-		//scriptBody=ScriptBody
+		//operations+=JpOperation*
+		//scriptBody=JpScriptBody
 		public Group getGroup() { return cGroup; }
 		
 		//'script'
@@ -125,20 +125,20 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		//JvmParameterizedTypeReference
 		public RuleCall getSuperTypeJvmParameterizedTypeReferenceParserRuleCall_4_1_0() { return cSuperTypeJvmParameterizedTypeReferenceParserRuleCall_4_1_0; }
 		
-		//operations+=Operation*
+		//operations+=JpOperation*
 		public Assignment getOperationsAssignment_5() { return cOperationsAssignment_5; }
 		
-		//Operation
-		public RuleCall getOperationsOperationParserRuleCall_5_0() { return cOperationsOperationParserRuleCall_5_0; }
+		//JpOperation
+		public RuleCall getOperationsJpOperationParserRuleCall_5_0() { return cOperationsJpOperationParserRuleCall_5_0; }
 		
-		//scriptBody=ScriptBody
+		//scriptBody=JpScriptBody
 		public Assignment getScriptBodyAssignment_6() { return cScriptBodyAssignment_6; }
 		
-		//ScriptBody
-		public RuleCall getScriptBodyScriptBodyParserRuleCall_6_0() { return cScriptBodyScriptBodyParserRuleCall_6_0; }
+		//JpScriptBody
+		public RuleCall getScriptBodyJpScriptBodyParserRuleCall_6_0() { return cScriptBodyJpScriptBodyParserRuleCall_6_0; }
 	}
-	public class ScriptBodyElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.ScriptBody");
+	public class JpScriptBodyElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.JpScriptBody");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cScriptBodyAction_0 = (Action)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
@@ -146,7 +146,7 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		private final RuleCall cExpressionsJpStatementOrBlockParserRuleCall_1_0_0 = (RuleCall)cExpressionsAssignment_1_0.eContents().get(0);
 		private final Keyword cSemicolonKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
 		
-		//ScriptBody returns XBlockExpression:
+		//JpScriptBody returns XBlockExpression:
 		//    {ScriptBody}
 		//    (expressions+=JpStatementOrBlock ';'?)*
 		//;
@@ -174,24 +174,24 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 	public class JpElementElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.JpElement");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cPackageDeclarationParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cJpPackageDeclarationParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cJpClassParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		//JpElement:
-		//    PackageDeclaration | JpClass;
+		//    JpPackageDeclaration | JpClass;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//PackageDeclaration | JpClass
+		//JpPackageDeclaration | JpClass
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//PackageDeclaration
-		public RuleCall getPackageDeclarationParserRuleCall_0() { return cPackageDeclarationParserRuleCall_0; }
+		//JpPackageDeclaration
+		public RuleCall getJpPackageDeclarationParserRuleCall_0() { return cJpPackageDeclarationParserRuleCall_0; }
 		
 		//JpClass
 		public RuleCall getJpClassParserRuleCall_1() { return cJpClassParserRuleCall_1; }
 	}
-	public class PackageDeclarationElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.PackageDeclaration");
+	public class JpPackageDeclarationElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.JpPackageDeclaration");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cPackageKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -201,7 +201,7 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		private final RuleCall cElementsJpElementParserRuleCall_3_0 = (RuleCall)cElementsAssignment_3.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
-		//PackageDeclaration:
+		//JpPackageDeclaration:
 		//    'package' name=QualifiedName '{'
 		//        elements+=JpElement*
 		//    '}'
@@ -246,18 +246,18 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		private final RuleCall cSuperTypeJvmParameterizedTypeReferenceParserRuleCall_2_1_0 = (RuleCall)cSuperTypeAssignment_2_1.eContents().get(0);
 		private final Keyword cLeftCurlyBracketKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		private final Assignment cFeaturesAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final RuleCall cFeaturesFeatureParserRuleCall_4_0 = (RuleCall)cFeaturesAssignment_4.eContents().get(0);
+		private final RuleCall cFeaturesJpFeatureParserRuleCall_4_0 = (RuleCall)cFeaturesAssignment_4.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//JpClass:
 		//    'class' name=ValidID ('extends' superType=JvmParameterizedTypeReference)? '{'
-		//        features+=Feature*
+		//        features+=JpFeature*
 		//    '}'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'class' name=ValidID ('extends' superType=JvmParameterizedTypeReference)? '{'
-		//    features+=Feature*
+		//    features+=JpFeature*
 		//'}'
 		public Group getGroup() { return cGroup; }
 		
@@ -285,37 +285,37 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_3() { return cLeftCurlyBracketKeyword_3; }
 		
-		//features+=Feature*
+		//features+=JpFeature*
 		public Assignment getFeaturesAssignment_4() { return cFeaturesAssignment_4; }
 		
-		//Feature
-		public RuleCall getFeaturesFeatureParserRuleCall_4_0() { return cFeaturesFeatureParserRuleCall_4_0; }
+		//JpFeature
+		public RuleCall getFeaturesJpFeatureParserRuleCall_4_0() { return cFeaturesJpFeatureParserRuleCall_4_0; }
 		
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_5() { return cRightCurlyBracketKeyword_5; }
 	}
-	public class FeatureElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.Feature");
+	public class JpFeatureElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.JpFeature");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cPropertyParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cOperationParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cJpPropertyParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cJpOperationParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
-		//Feature:
-		//    Property | Operation
+		//JpFeature:
+		//    JpProperty | JpOperation
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//Property | Operation
+		//JpProperty | JpOperation
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//Property
-		public RuleCall getPropertyParserRuleCall_0() { return cPropertyParserRuleCall_0; }
+		//JpProperty
+		public RuleCall getJpPropertyParserRuleCall_0() { return cJpPropertyParserRuleCall_0; }
 		
-		//Operation
-		public RuleCall getOperationParserRuleCall_1() { return cOperationParserRuleCall_1; }
+		//JpOperation
+		public RuleCall getJpOperationParserRuleCall_1() { return cJpOperationParserRuleCall_1; }
 	}
-	public class PropertyElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.Property");
+	public class JpPropertyElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.JpProperty");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cNameValidIDParserRuleCall_0_0 = (RuleCall)cNameAssignment_0.eContents().get(0);
@@ -323,7 +323,7 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cTypeJvmTypeReferenceParserRuleCall_2_0 = (RuleCall)cTypeAssignment_2.eContents().get(0);
 		
-		//Property:
+		//JpProperty:
 		//    name=ValidID ':' type=JvmTypeReference
 		//;
 		@Override public ParserRule getRule() { return rule; }
@@ -346,8 +346,8 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		//JvmTypeReference
 		public RuleCall getTypeJvmTypeReferenceParserRuleCall_2_0() { return cTypeJvmTypeReferenceParserRuleCall_2_0; }
 	}
-	public class OperationElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.Operation");
+	public class JpOperationElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "cn.simbaba.mydsl.Jp.JpOperation");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cDefKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -368,7 +368,7 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		private final Assignment cBodyAssignment_6 = (Assignment)cGroup.eContents().get(6);
 		private final RuleCall cBodyXBlockExpressionParserRuleCall_6_0 = (RuleCall)cBodyAssignment_6.eContents().get(0);
 		
-		//Operation:
+		//JpOperation:
 		//    'def' name=ValidID '(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' (':' type=JvmTypeReference)?
 		//    body=XBlockExpression
 		//;
@@ -3373,13 +3373,13 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 	
 	private final JpModelElements pJpModel;
 	private final JpScriptElements pJpScript;
-	private final ScriptBodyElements pScriptBody;
+	private final JpScriptBodyElements pJpScriptBody;
 	private final JpElementElements pJpElement;
-	private final PackageDeclarationElements pPackageDeclaration;
+	private final JpPackageDeclarationElements pJpPackageDeclaration;
 	private final JpClassElements pJpClass;
-	private final FeatureElements pFeature;
-	private final PropertyElements pProperty;
-	private final OperationElements pOperation;
+	private final JpFeatureElements pJpFeature;
+	private final JpPropertyElements pJpProperty;
+	private final JpOperationElements pJpOperation;
 	private final JpStatementOrBlockElements pJpStatementOrBlock;
 	private final JpSingleStatementElements pJpSingleStatement;
 	private final JpBranchingStatementElements pJpBranchingStatement;
@@ -3438,13 +3438,13 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		this.gaXtype = gaXtype;
 		this.pJpModel = new JpModelElements();
 		this.pJpScript = new JpScriptElements();
-		this.pScriptBody = new ScriptBodyElements();
+		this.pJpScriptBody = new JpScriptBodyElements();
 		this.pJpElement = new JpElementElements();
-		this.pPackageDeclaration = new PackageDeclarationElements();
+		this.pJpPackageDeclaration = new JpPackageDeclarationElements();
 		this.pJpClass = new JpClassElements();
-		this.pFeature = new FeatureElements();
-		this.pProperty = new PropertyElements();
-		this.pOperation = new OperationElements();
+		this.pJpFeature = new JpFeatureElements();
+		this.pJpProperty = new JpPropertyElements();
+		this.pJpOperation = new JpOperationElements();
 		this.pJpStatementOrBlock = new JpStatementOrBlockElements();
 		this.pJpSingleStatement = new JpSingleStatementElements();
 		this.pJpBranchingStatement = new JpBranchingStatementElements();
@@ -3535,8 +3535,8 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 	
 	//JpScript:
 	//    'script' name=ValidID 'by' author=ID (=>'extends' superType=JvmParameterizedTypeReference)?
-	//    operations+=Operation*
-	//    scriptBody=ScriptBody
+	//    operations+=JpOperation*
+	//    scriptBody=JpScriptBody
 	//;
 	public JpScriptElements getJpScriptAccess() {
 		return pJpScript;
@@ -3546,20 +3546,20 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		return getJpScriptAccess().getRule();
 	}
 	
-	//ScriptBody returns XBlockExpression:
+	//JpScriptBody returns XBlockExpression:
 	//    {ScriptBody}
 	//    (expressions+=JpStatementOrBlock ';'?)*
 	//;
-	public ScriptBodyElements getScriptBodyAccess() {
-		return pScriptBody;
+	public JpScriptBodyElements getJpScriptBodyAccess() {
+		return pJpScriptBody;
 	}
 	
-	public ParserRule getScriptBodyRule() {
-		return getScriptBodyAccess().getRule();
+	public ParserRule getJpScriptBodyRule() {
+		return getJpScriptBodyAccess().getRule();
 	}
 	
 	//JpElement:
-	//    PackageDeclaration | JpClass;
+	//    JpPackageDeclaration | JpClass;
 	public JpElementElements getJpElementAccess() {
 		return pJpElement;
 	}
@@ -3568,22 +3568,22 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		return getJpElementAccess().getRule();
 	}
 	
-	//PackageDeclaration:
+	//JpPackageDeclaration:
 	//    'package' name=QualifiedName '{'
 	//        elements+=JpElement*
 	//    '}'
 	//;
-	public PackageDeclarationElements getPackageDeclarationAccess() {
-		return pPackageDeclaration;
+	public JpPackageDeclarationElements getJpPackageDeclarationAccess() {
+		return pJpPackageDeclaration;
 	}
 	
-	public ParserRule getPackageDeclarationRule() {
-		return getPackageDeclarationAccess().getRule();
+	public ParserRule getJpPackageDeclarationRule() {
+		return getJpPackageDeclarationAccess().getRule();
 	}
 	
 	//JpClass:
 	//    'class' name=ValidID ('extends' superType=JvmParameterizedTypeReference)? '{'
-	//        features+=Feature*
+	//        features+=JpFeature*
 	//    '}'
 	//;
 	public JpClassElements getJpClassAccess() {
@@ -3594,38 +3594,38 @@ public class JpGrammarAccess extends AbstractElementFinder.AbstractGrammarElemen
 		return getJpClassAccess().getRule();
 	}
 	
-	//Feature:
-	//    Property | Operation
+	//JpFeature:
+	//    JpProperty | JpOperation
 	//;
-	public FeatureElements getFeatureAccess() {
-		return pFeature;
+	public JpFeatureElements getJpFeatureAccess() {
+		return pJpFeature;
 	}
 	
-	public ParserRule getFeatureRule() {
-		return getFeatureAccess().getRule();
+	public ParserRule getJpFeatureRule() {
+		return getJpFeatureAccess().getRule();
 	}
 	
-	//Property:
+	//JpProperty:
 	//    name=ValidID ':' type=JvmTypeReference
 	//;
-	public PropertyElements getPropertyAccess() {
-		return pProperty;
+	public JpPropertyElements getJpPropertyAccess() {
+		return pJpProperty;
 	}
 	
-	public ParserRule getPropertyRule() {
-		return getPropertyAccess().getRule();
+	public ParserRule getJpPropertyRule() {
+		return getJpPropertyAccess().getRule();
 	}
 	
-	//Operation:
+	//JpOperation:
 	//    'def' name=ValidID '(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' (':' type=JvmTypeReference)?
 	//    body=XBlockExpression
 	//;
-	public OperationElements getOperationAccess() {
-		return pOperation;
+	public JpOperationElements getJpOperationAccess() {
+		return pJpOperation;
 	}
 	
-	public ParserRule getOperationRule() {
-		return getOperationAccess().getRule();
+	public ParserRule getJpOperationRule() {
+		return getJpOperationAccess().getRule();
 	}
 	
 	///**

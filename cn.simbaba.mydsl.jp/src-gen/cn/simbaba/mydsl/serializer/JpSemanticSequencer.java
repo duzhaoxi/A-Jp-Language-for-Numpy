@@ -17,14 +17,14 @@ import cn.simbaba.mydsl.jp.JpImportDeclaration;
 import cn.simbaba.mydsl.jp.JpIndex;
 import cn.simbaba.mydsl.jp.JpLetVarDeclaration;
 import cn.simbaba.mydsl.jp.JpModel;
+import cn.simbaba.mydsl.jp.JpOperation;
 import cn.simbaba.mydsl.jp.JpPackage;
+import cn.simbaba.mydsl.jp.JpPackageDeclaration;
 import cn.simbaba.mydsl.jp.JpPrefixOperation;
+import cn.simbaba.mydsl.jp.JpProperty;
 import cn.simbaba.mydsl.jp.JpScript;
 import cn.simbaba.mydsl.jp.JpWithOpenAs;
 import cn.simbaba.mydsl.jp.JpWithOpenCall;
-import cn.simbaba.mydsl.jp.Operation;
-import cn.simbaba.mydsl.jp.PackageDeclaration;
-import cn.simbaba.mydsl.jp.Property;
 import cn.simbaba.mydsl.jp.ScriptBody;
 import cn.simbaba.mydsl.services.JpGrammarAccess;
 import com.google.inject.Inject;
@@ -238,6 +238,12 @@ public class JpSemanticSequencer extends XbaseSemanticSequencer {
 			case JpPackage.JP_MODEL:
 				sequence_JpModel(context, (JpModel) semanticObject); 
 				return; 
+			case JpPackage.JP_OPERATION:
+				sequence_JpOperation(context, (JpOperation) semanticObject); 
+				return; 
+			case JpPackage.JP_PACKAGE_DECLARATION:
+				sequence_JpPackageDeclaration(context, (JpPackageDeclaration) semanticObject); 
+				return; 
 			case JpPackage.JP_PREFIX_OPERATION:
 				if (rule == grammarAccess.getJpPrefixOperationRule()) {
 					sequence_JpPrefixOperation(context, (JpPrefixOperation) semanticObject); 
@@ -248,6 +254,9 @@ public class JpSemanticSequencer extends XbaseSemanticSequencer {
 					return; 
 				}
 				else break;
+			case JpPackage.JP_PROPERTY:
+				sequence_JpProperty(context, (JpProperty) semanticObject); 
+				return; 
 			case JpPackage.JP_SCRIPT:
 				sequence_JpScript(context, (JpScript) semanticObject); 
 				return; 
@@ -257,17 +266,8 @@ public class JpSemanticSequencer extends XbaseSemanticSequencer {
 			case JpPackage.JP_WITH_OPEN_CALL:
 				sequence_JpWithOpenAsCall(context, (JpWithOpenCall) semanticObject); 
 				return; 
-			case JpPackage.OPERATION:
-				sequence_Operation(context, (Operation) semanticObject); 
-				return; 
-			case JpPackage.PACKAGE_DECLARATION:
-				sequence_PackageDeclaration(context, (PackageDeclaration) semanticObject); 
-				return; 
-			case JpPackage.PROPERTY:
-				sequence_Property(context, (Property) semanticObject); 
-				return; 
 			case JpPackage.SCRIPT_BODY:
-				sequence_ScriptBody(context, (ScriptBody) semanticObject); 
+				sequence_JpScriptBody(context, (ScriptBody) semanticObject); 
 				return; 
 			}
 		else if (epackage == TypesPackage.eINSTANCE)
@@ -744,7 +744,7 @@ public class JpSemanticSequencer extends XbaseSemanticSequencer {
 	 *     JpClass returns JpClass
 	 *
 	 * Constraint:
-	 *     (name=ValidID superType=JvmParameterizedTypeReference? features+=Feature*)
+	 *     (name=ValidID superType=JvmParameterizedTypeReference? features+=JpFeature*)
 	 */
 	protected void sequence_JpClass(ISerializationContext context, JpClass semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -861,6 +861,32 @@ public class JpSemanticSequencer extends XbaseSemanticSequencer {
 	
 	/**
 	 * Contexts:
+	 *     JpFeature returns JpOperation
+	 *     JpOperation returns JpOperation
+	 *
+	 * Constraint:
+	 *     (name=ValidID (params+=FullJvmFormalParameter params+=FullJvmFormalParameter*)? type=JvmTypeReference? body=XBlockExpression)
+	 */
+	protected void sequence_JpOperation(ISerializationContext context, JpOperation semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     JpElement returns JpPackageDeclaration
+	 *     JpPackageDeclaration returns JpPackageDeclaration
+	 *
+	 * Constraint:
+	 *     (name=QualifiedName elements+=JpElement*)
+	 */
+	protected void sequence_JpPackageDeclaration(ISerializationContext context, JpPackageDeclaration semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     JpPrefixOperation returns JpPrefixOperation
 	 *
 	 * Constraint:
@@ -868,6 +894,28 @@ public class JpSemanticSequencer extends XbaseSemanticSequencer {
 	 */
 	protected void sequence_JpPrefixOperation(ISerializationContext context, JpPrefixOperation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     JpFeature returns JpProperty
+	 *     JpProperty returns JpProperty
+	 *
+	 * Constraint:
+	 *     (name=ValidID type=JvmTypeReference)
+	 */
+	protected void sequence_JpProperty(ISerializationContext context, JpProperty semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, JpPackage.Literals.JP_FEATURE__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, JpPackage.Literals.JP_FEATURE__NAME));
+			if (transientValues.isValueTransient(semanticObject, JpPackage.Literals.JP_FEATURE__TYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, JpPackage.Literals.JP_FEATURE__TYPE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getJpPropertyAccess().getNameValidIDParserRuleCall_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getJpPropertyAccess().getTypeJvmTypeReferenceParserRuleCall_2_0(), semanticObject.getType());
+		feeder.finish();
 	}
 	
 	
@@ -933,10 +981,22 @@ public class JpSemanticSequencer extends XbaseSemanticSequencer {
 	
 	/**
 	 * Contexts:
+	 *     JpScriptBody returns ScriptBody
+	 *
+	 * Constraint:
+	 *     expressions+=JpStatementOrBlock*
+	 */
+	protected void sequence_JpScriptBody(ISerializationContext context, ScriptBody semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     JpScript returns JpScript
 	 *
 	 * Constraint:
-	 *     (name=ValidID author=ID superType=JvmParameterizedTypeReference? operations+=Operation* scriptBody=ScriptBody)
+	 *     (name=ValidID author=ID superType=JvmParameterizedTypeReference? operations+=JpOperation* scriptBody=JpScriptBody)
 	 */
 	protected void sequence_JpScript(ISerializationContext context, JpScript semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -981,66 +1041,6 @@ public class JpSemanticSequencer extends XbaseSemanticSequencer {
 		feeder.accept(grammarAccess.getJpWithOpenAsAccess().getNameValidIDParserRuleCall_4_0(), semanticObject.getName());
 		feeder.accept(grammarAccess.getJpWithOpenAsAccess().getWithExpressionJpStatementOrBlockParserRuleCall_5_0(), semanticObject.getWithExpression());
 		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     Feature returns Operation
-	 *     Operation returns Operation
-	 *
-	 * Constraint:
-	 *     (name=ValidID (params+=FullJvmFormalParameter params+=FullJvmFormalParameter*)? type=JvmTypeReference? body=XBlockExpression)
-	 */
-	protected void sequence_Operation(ISerializationContext context, Operation semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     JpElement returns PackageDeclaration
-	 *     PackageDeclaration returns PackageDeclaration
-	 *
-	 * Constraint:
-	 *     (name=QualifiedName elements+=JpElement*)
-	 */
-	protected void sequence_PackageDeclaration(ISerializationContext context, PackageDeclaration semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     Feature returns Property
-	 *     Property returns Property
-	 *
-	 * Constraint:
-	 *     (name=ValidID type=JvmTypeReference)
-	 */
-	protected void sequence_Property(ISerializationContext context, Property semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, JpPackage.Literals.FEATURE__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, JpPackage.Literals.FEATURE__NAME));
-			if (transientValues.isValueTransient(semanticObject, JpPackage.Literals.FEATURE__TYPE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, JpPackage.Literals.FEATURE__TYPE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getPropertyAccess().getNameValidIDParserRuleCall_0_0(), semanticObject.getName());
-		feeder.accept(grammarAccess.getPropertyAccess().getTypeJvmTypeReferenceParserRuleCall_2_0(), semanticObject.getType());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     ScriptBody returns ScriptBody
-	 *
-	 * Constraint:
-	 *     expressions+=JpStatementOrBlock*
-	 */
-	protected void sequence_ScriptBody(ISerializationContext context, ScriptBody semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

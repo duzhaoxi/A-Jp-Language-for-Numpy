@@ -435,7 +435,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleJpScript"
-    // InternalJp.g:147:1: ruleJpScript returns [EObject current=null] : (otherlv_0= 'script' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= 'by' ( (lv_author_3_0= RULE_ID ) ) ( ( ( 'extends' )=>otherlv_4= 'extends' ) ( (lv_superType_5_0= ruleJvmParameterizedTypeReference ) ) )? ( (lv_operations_6_0= ruleOperation ) )* ( (lv_scriptBody_7_0= ruleScriptBody ) ) ) ;
+    // InternalJp.g:147:1: ruleJpScript returns [EObject current=null] : (otherlv_0= 'script' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= 'by' ( (lv_author_3_0= RULE_ID ) ) ( ( ( 'extends' )=>otherlv_4= 'extends' ) ( (lv_superType_5_0= ruleJvmParameterizedTypeReference ) ) )? ( (lv_operations_6_0= ruleJpOperation ) )* ( (lv_scriptBody_7_0= ruleJpScriptBody ) ) ) ;
     public final EObject ruleJpScript() throws RecognitionException {
         EObject current = null;
 
@@ -456,11 +456,11 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalJp.g:153:2: ( (otherlv_0= 'script' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= 'by' ( (lv_author_3_0= RULE_ID ) ) ( ( ( 'extends' )=>otherlv_4= 'extends' ) ( (lv_superType_5_0= ruleJvmParameterizedTypeReference ) ) )? ( (lv_operations_6_0= ruleOperation ) )* ( (lv_scriptBody_7_0= ruleScriptBody ) ) ) )
-            // InternalJp.g:154:2: (otherlv_0= 'script' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= 'by' ( (lv_author_3_0= RULE_ID ) ) ( ( ( 'extends' )=>otherlv_4= 'extends' ) ( (lv_superType_5_0= ruleJvmParameterizedTypeReference ) ) )? ( (lv_operations_6_0= ruleOperation ) )* ( (lv_scriptBody_7_0= ruleScriptBody ) ) )
+            // InternalJp.g:153:2: ( (otherlv_0= 'script' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= 'by' ( (lv_author_3_0= RULE_ID ) ) ( ( ( 'extends' )=>otherlv_4= 'extends' ) ( (lv_superType_5_0= ruleJvmParameterizedTypeReference ) ) )? ( (lv_operations_6_0= ruleJpOperation ) )* ( (lv_scriptBody_7_0= ruleJpScriptBody ) ) ) )
+            // InternalJp.g:154:2: (otherlv_0= 'script' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= 'by' ( (lv_author_3_0= RULE_ID ) ) ( ( ( 'extends' )=>otherlv_4= 'extends' ) ( (lv_superType_5_0= ruleJvmParameterizedTypeReference ) ) )? ( (lv_operations_6_0= ruleJpOperation ) )* ( (lv_scriptBody_7_0= ruleJpScriptBody ) ) )
             {
-            // InternalJp.g:154:2: (otherlv_0= 'script' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= 'by' ( (lv_author_3_0= RULE_ID ) ) ( ( ( 'extends' )=>otherlv_4= 'extends' ) ( (lv_superType_5_0= ruleJvmParameterizedTypeReference ) ) )? ( (lv_operations_6_0= ruleOperation ) )* ( (lv_scriptBody_7_0= ruleScriptBody ) ) )
-            // InternalJp.g:155:3: otherlv_0= 'script' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= 'by' ( (lv_author_3_0= RULE_ID ) ) ( ( ( 'extends' )=>otherlv_4= 'extends' ) ( (lv_superType_5_0= ruleJvmParameterizedTypeReference ) ) )? ( (lv_operations_6_0= ruleOperation ) )* ( (lv_scriptBody_7_0= ruleScriptBody ) )
+            // InternalJp.g:154:2: (otherlv_0= 'script' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= 'by' ( (lv_author_3_0= RULE_ID ) ) ( ( ( 'extends' )=>otherlv_4= 'extends' ) ( (lv_superType_5_0= ruleJvmParameterizedTypeReference ) ) )? ( (lv_operations_6_0= ruleJpOperation ) )* ( (lv_scriptBody_7_0= ruleJpScriptBody ) ) )
+            // InternalJp.g:155:3: otherlv_0= 'script' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= 'by' ( (lv_author_3_0= RULE_ID ) ) ( ( ( 'extends' )=>otherlv_4= 'extends' ) ( (lv_superType_5_0= ruleJvmParameterizedTypeReference ) ) )? ( (lv_operations_6_0= ruleJpOperation ) )* ( (lv_scriptBody_7_0= ruleJpScriptBody ) )
             {
             otherlv_0=(Token)match(input,13,FOLLOW_4); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -611,7 +611,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalJp.g:228:3: ( (lv_operations_6_0= ruleOperation ) )*
+            // InternalJp.g:228:3: ( (lv_operations_6_0= ruleJpOperation ) )*
             loop5:
             do {
                 int alt5=2;
@@ -624,18 +624,18 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
 
                 switch (alt5) {
             	case 1 :
-            	    // InternalJp.g:229:4: (lv_operations_6_0= ruleOperation )
+            	    // InternalJp.g:229:4: (lv_operations_6_0= ruleJpOperation )
             	    {
-            	    // InternalJp.g:229:4: (lv_operations_6_0= ruleOperation )
-            	    // InternalJp.g:230:5: lv_operations_6_0= ruleOperation
+            	    // InternalJp.g:229:4: (lv_operations_6_0= ruleJpOperation )
+            	    // InternalJp.g:230:5: lv_operations_6_0= ruleJpOperation
             	    {
             	    if ( state.backtracking==0 ) {
 
-            	      					newCompositeNode(grammarAccess.getJpScriptAccess().getOperationsOperationParserRuleCall_5_0());
+            	      					newCompositeNode(grammarAccess.getJpScriptAccess().getOperationsJpOperationParserRuleCall_5_0());
             	      				
             	    }
             	    pushFollow(FOLLOW_6);
-            	    lv_operations_6_0=ruleOperation();
+            	    lv_operations_6_0=ruleJpOperation();
 
             	    state._fsp--;
             	    if (state.failed) return current;
@@ -648,7 +648,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             	      						current,
             	      						"operations",
             	      						lv_operations_6_0,
-            	      						"cn.simbaba.mydsl.Jp.Operation");
+            	      						"cn.simbaba.mydsl.Jp.JpOperation");
             	      					afterParserOrEnumRuleCall();
             	      				
             	    }
@@ -664,19 +664,19 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
                 }
             } while (true);
 
-            // InternalJp.g:247:3: ( (lv_scriptBody_7_0= ruleScriptBody ) )
-            // InternalJp.g:248:4: (lv_scriptBody_7_0= ruleScriptBody )
+            // InternalJp.g:247:3: ( (lv_scriptBody_7_0= ruleJpScriptBody ) )
+            // InternalJp.g:248:4: (lv_scriptBody_7_0= ruleJpScriptBody )
             {
-            // InternalJp.g:248:4: (lv_scriptBody_7_0= ruleScriptBody )
-            // InternalJp.g:249:5: lv_scriptBody_7_0= ruleScriptBody
+            // InternalJp.g:248:4: (lv_scriptBody_7_0= ruleJpScriptBody )
+            // InternalJp.g:249:5: lv_scriptBody_7_0= ruleJpScriptBody
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getJpScriptAccess().getScriptBodyScriptBodyParserRuleCall_6_0());
+              					newCompositeNode(grammarAccess.getJpScriptAccess().getScriptBodyJpScriptBodyParserRuleCall_6_0());
               				
             }
             pushFollow(FOLLOW_2);
-            lv_scriptBody_7_0=ruleScriptBody();
+            lv_scriptBody_7_0=ruleJpScriptBody();
 
             state._fsp--;
             if (state.failed) return current;
@@ -689,7 +689,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
               						current,
               						"scriptBody",
               						lv_scriptBody_7_0,
-              						"cn.simbaba.mydsl.Jp.ScriptBody");
+              						"cn.simbaba.mydsl.Jp.JpScriptBody");
               					afterParserOrEnumRuleCall();
               				
             }
@@ -723,28 +723,28 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleJpScript"
 
 
-    // $ANTLR start "entryRuleScriptBody"
-    // InternalJp.g:270:1: entryRuleScriptBody returns [EObject current=null] : iv_ruleScriptBody= ruleScriptBody EOF ;
-    public final EObject entryRuleScriptBody() throws RecognitionException {
+    // $ANTLR start "entryRuleJpScriptBody"
+    // InternalJp.g:270:1: entryRuleJpScriptBody returns [EObject current=null] : iv_ruleJpScriptBody= ruleJpScriptBody EOF ;
+    public final EObject entryRuleJpScriptBody() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleScriptBody = null;
+        EObject iv_ruleJpScriptBody = null;
 
 
         try {
-            // InternalJp.g:270:51: (iv_ruleScriptBody= ruleScriptBody EOF )
-            // InternalJp.g:271:2: iv_ruleScriptBody= ruleScriptBody EOF
+            // InternalJp.g:270:53: (iv_ruleJpScriptBody= ruleJpScriptBody EOF )
+            // InternalJp.g:271:2: iv_ruleJpScriptBody= ruleJpScriptBody EOF
             {
             if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getScriptBodyRule()); 
+               newCompositeNode(grammarAccess.getJpScriptBodyRule()); 
             }
             pushFollow(FOLLOW_1);
-            iv_ruleScriptBody=ruleScriptBody();
+            iv_ruleJpScriptBody=ruleJpScriptBody();
 
             state._fsp--;
             if (state.failed) return current;
             if ( state.backtracking==0 ) {
-               current =iv_ruleScriptBody; 
+               current =iv_ruleJpScriptBody; 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return current;
 
@@ -760,12 +760,12 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleScriptBody"
+    // $ANTLR end "entryRuleJpScriptBody"
 
 
-    // $ANTLR start "ruleScriptBody"
-    // InternalJp.g:277:1: ruleScriptBody returns [EObject current=null] : ( () ( ( (lv_expressions_1_0= ruleJpStatementOrBlock ) ) (otherlv_2= ';' )? )* ) ;
-    public final EObject ruleScriptBody() throws RecognitionException {
+    // $ANTLR start "ruleJpScriptBody"
+    // InternalJp.g:277:1: ruleJpScriptBody returns [EObject current=null] : ( () ( ( (lv_expressions_1_0= ruleJpStatementOrBlock ) ) (otherlv_2= ';' )? )* ) ;
+    public final EObject ruleJpScriptBody() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_2=null;
@@ -788,7 +788,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
 
               				current = forceCreateModelElement(
-              					grammarAccess.getScriptBodyAccess().getScriptBodyAction_0(),
+              					grammarAccess.getJpScriptBodyAccess().getScriptBodyAction_0(),
               					current);
               			
             }
@@ -818,7 +818,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             	    {
             	    if ( state.backtracking==0 ) {
 
-            	      						newCompositeNode(grammarAccess.getScriptBodyAccess().getExpressionsJpStatementOrBlockParserRuleCall_1_0_0());
+            	      						newCompositeNode(grammarAccess.getJpScriptBodyAccess().getExpressionsJpStatementOrBlockParserRuleCall_1_0_0());
             	      					
             	    }
             	    pushFollow(FOLLOW_7);
@@ -829,7 +829,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             	    if ( state.backtracking==0 ) {
 
             	      						if (current==null) {
-            	      							current = createModelElementForParent(grammarAccess.getScriptBodyRule());
+            	      							current = createModelElementForParent(grammarAccess.getJpScriptBodyRule());
             	      						}
             	      						add(
             	      							current,
@@ -859,7 +859,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             	            otherlv_2=(Token)match(input,16,FOLLOW_8); if (state.failed) return current;
             	            if ( state.backtracking==0 ) {
 
-            	              					newLeafNode(otherlv_2, grammarAccess.getScriptBodyAccess().getSemicolonKeyword_1_1());
+            	              					newLeafNode(otherlv_2, grammarAccess.getJpScriptBodyAccess().getSemicolonKeyword_1_1());
             	              				
             	            }
 
@@ -898,7 +898,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleScriptBody"
+    // $ANTLR end "ruleJpScriptBody"
 
 
     // $ANTLR start "entryRuleJpElement"
@@ -942,11 +942,11 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleJpElement"
-    // InternalJp.g:330:1: ruleJpElement returns [EObject current=null] : (this_PackageDeclaration_0= rulePackageDeclaration | this_JpClass_1= ruleJpClass ) ;
+    // InternalJp.g:330:1: ruleJpElement returns [EObject current=null] : (this_JpPackageDeclaration_0= ruleJpPackageDeclaration | this_JpClass_1= ruleJpClass ) ;
     public final EObject ruleJpElement() throws RecognitionException {
         EObject current = null;
 
-        EObject this_PackageDeclaration_0 = null;
+        EObject this_JpPackageDeclaration_0 = null;
 
         EObject this_JpClass_1 = null;
 
@@ -955,10 +955,10 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalJp.g:336:2: ( (this_PackageDeclaration_0= rulePackageDeclaration | this_JpClass_1= ruleJpClass ) )
-            // InternalJp.g:337:2: (this_PackageDeclaration_0= rulePackageDeclaration | this_JpClass_1= ruleJpClass )
+            // InternalJp.g:336:2: ( (this_JpPackageDeclaration_0= ruleJpPackageDeclaration | this_JpClass_1= ruleJpClass ) )
+            // InternalJp.g:337:2: (this_JpPackageDeclaration_0= ruleJpPackageDeclaration | this_JpClass_1= ruleJpClass )
             {
-            // InternalJp.g:337:2: (this_PackageDeclaration_0= rulePackageDeclaration | this_JpClass_1= ruleJpClass )
+            // InternalJp.g:337:2: (this_JpPackageDeclaration_0= ruleJpPackageDeclaration | this_JpClass_1= ruleJpClass )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -977,21 +977,21 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             }
             switch (alt8) {
                 case 1 :
-                    // InternalJp.g:338:3: this_PackageDeclaration_0= rulePackageDeclaration
+                    // InternalJp.g:338:3: this_JpPackageDeclaration_0= ruleJpPackageDeclaration
                     {
                     if ( state.backtracking==0 ) {
 
-                      			newCompositeNode(grammarAccess.getJpElementAccess().getPackageDeclarationParserRuleCall_0());
+                      			newCompositeNode(grammarAccess.getJpElementAccess().getJpPackageDeclarationParserRuleCall_0());
                       		
                     }
                     pushFollow(FOLLOW_2);
-                    this_PackageDeclaration_0=rulePackageDeclaration();
+                    this_JpPackageDeclaration_0=ruleJpPackageDeclaration();
 
                     state._fsp--;
                     if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      			current = this_PackageDeclaration_0;
+                      			current = this_JpPackageDeclaration_0;
                       			afterParserOrEnumRuleCall();
                       		
                     }
@@ -1044,28 +1044,28 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleJpElement"
 
 
-    // $ANTLR start "entryRulePackageDeclaration"
-    // InternalJp.g:359:1: entryRulePackageDeclaration returns [EObject current=null] : iv_rulePackageDeclaration= rulePackageDeclaration EOF ;
-    public final EObject entryRulePackageDeclaration() throws RecognitionException {
+    // $ANTLR start "entryRuleJpPackageDeclaration"
+    // InternalJp.g:359:1: entryRuleJpPackageDeclaration returns [EObject current=null] : iv_ruleJpPackageDeclaration= ruleJpPackageDeclaration EOF ;
+    public final EObject entryRuleJpPackageDeclaration() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_rulePackageDeclaration = null;
+        EObject iv_ruleJpPackageDeclaration = null;
 
 
         try {
-            // InternalJp.g:359:59: (iv_rulePackageDeclaration= rulePackageDeclaration EOF )
-            // InternalJp.g:360:2: iv_rulePackageDeclaration= rulePackageDeclaration EOF
+            // InternalJp.g:359:61: (iv_ruleJpPackageDeclaration= ruleJpPackageDeclaration EOF )
+            // InternalJp.g:360:2: iv_ruleJpPackageDeclaration= ruleJpPackageDeclaration EOF
             {
             if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getPackageDeclarationRule()); 
+               newCompositeNode(grammarAccess.getJpPackageDeclarationRule()); 
             }
             pushFollow(FOLLOW_1);
-            iv_rulePackageDeclaration=rulePackageDeclaration();
+            iv_ruleJpPackageDeclaration=ruleJpPackageDeclaration();
 
             state._fsp--;
             if (state.failed) return current;
             if ( state.backtracking==0 ) {
-               current =iv_rulePackageDeclaration; 
+               current =iv_ruleJpPackageDeclaration; 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return current;
 
@@ -1081,12 +1081,12 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRulePackageDeclaration"
+    // $ANTLR end "entryRuleJpPackageDeclaration"
 
 
-    // $ANTLR start "rulePackageDeclaration"
-    // InternalJp.g:366:1: rulePackageDeclaration returns [EObject current=null] : (otherlv_0= 'package' ( (lv_name_1_0= ruleQualifiedName ) ) otherlv_2= '{' ( (lv_elements_3_0= ruleJpElement ) )* otherlv_4= '}' ) ;
-    public final EObject rulePackageDeclaration() throws RecognitionException {
+    // $ANTLR start "ruleJpPackageDeclaration"
+    // InternalJp.g:366:1: ruleJpPackageDeclaration returns [EObject current=null] : (otherlv_0= 'package' ( (lv_name_1_0= ruleQualifiedName ) ) otherlv_2= '{' ( (lv_elements_3_0= ruleJpElement ) )* otherlv_4= '}' ) ;
+    public final EObject ruleJpPackageDeclaration() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_0=null;
@@ -1110,7 +1110,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             otherlv_0=(Token)match(input,17,FOLLOW_4); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_0, grammarAccess.getPackageDeclarationAccess().getPackageKeyword_0());
+              			newLeafNode(otherlv_0, grammarAccess.getJpPackageDeclarationAccess().getPackageKeyword_0());
               		
             }
             // InternalJp.g:378:3: ( (lv_name_1_0= ruleQualifiedName ) )
@@ -1121,7 +1121,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getPackageDeclarationAccess().getNameQualifiedNameParserRuleCall_1_0());
+              					newCompositeNode(grammarAccess.getJpPackageDeclarationAccess().getNameQualifiedNameParserRuleCall_1_0());
               				
             }
             pushFollow(FOLLOW_9);
@@ -1132,7 +1132,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
 
               					if (current==null) {
-              						current = createModelElementForParent(grammarAccess.getPackageDeclarationRule());
+              						current = createModelElementForParent(grammarAccess.getJpPackageDeclarationRule());
               					}
               					set(
               						current,
@@ -1151,7 +1151,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             otherlv_2=(Token)match(input,18,FOLLOW_10); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_2, grammarAccess.getPackageDeclarationAccess().getLeftCurlyBracketKeyword_2());
+              			newLeafNode(otherlv_2, grammarAccess.getJpPackageDeclarationAccess().getLeftCurlyBracketKeyword_2());
               		
             }
             // InternalJp.g:401:3: ( (lv_elements_3_0= ruleJpElement ) )*
@@ -1174,7 +1174,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             	    {
             	    if ( state.backtracking==0 ) {
 
-            	      					newCompositeNode(grammarAccess.getPackageDeclarationAccess().getElementsJpElementParserRuleCall_3_0());
+            	      					newCompositeNode(grammarAccess.getJpPackageDeclarationAccess().getElementsJpElementParserRuleCall_3_0());
             	      				
             	    }
             	    pushFollow(FOLLOW_10);
@@ -1185,7 +1185,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             	    if ( state.backtracking==0 ) {
 
             	      					if (current==null) {
-            	      						current = createModelElementForParent(grammarAccess.getPackageDeclarationRule());
+            	      						current = createModelElementForParent(grammarAccess.getJpPackageDeclarationRule());
             	      					}
             	      					add(
             	      						current,
@@ -1210,7 +1210,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             otherlv_4=(Token)match(input,19,FOLLOW_2); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_4, grammarAccess.getPackageDeclarationAccess().getRightCurlyBracketKeyword_4());
+              			newLeafNode(otherlv_4, grammarAccess.getJpPackageDeclarationAccess().getRightCurlyBracketKeyword_4());
               		
             }
 
@@ -1234,7 +1234,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "rulePackageDeclaration"
+    // $ANTLR end "ruleJpPackageDeclaration"
 
 
     // $ANTLR start "entryRuleJpClass"
@@ -1278,7 +1278,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleJpClass"
-    // InternalJp.g:435:1: ruleJpClass returns [EObject current=null] : (otherlv_0= 'class' ( (lv_name_1_0= ruleValidID ) ) (otherlv_2= 'extends' ( (lv_superType_3_0= ruleJvmParameterizedTypeReference ) ) )? otherlv_4= '{' ( (lv_features_5_0= ruleFeature ) )* otherlv_6= '}' ) ;
+    // InternalJp.g:435:1: ruleJpClass returns [EObject current=null] : (otherlv_0= 'class' ( (lv_name_1_0= ruleValidID ) ) (otherlv_2= 'extends' ( (lv_superType_3_0= ruleJvmParameterizedTypeReference ) ) )? otherlv_4= '{' ( (lv_features_5_0= ruleJpFeature ) )* otherlv_6= '}' ) ;
     public final EObject ruleJpClass() throws RecognitionException {
         EObject current = null;
 
@@ -1297,11 +1297,11 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalJp.g:441:2: ( (otherlv_0= 'class' ( (lv_name_1_0= ruleValidID ) ) (otherlv_2= 'extends' ( (lv_superType_3_0= ruleJvmParameterizedTypeReference ) ) )? otherlv_4= '{' ( (lv_features_5_0= ruleFeature ) )* otherlv_6= '}' ) )
-            // InternalJp.g:442:2: (otherlv_0= 'class' ( (lv_name_1_0= ruleValidID ) ) (otherlv_2= 'extends' ( (lv_superType_3_0= ruleJvmParameterizedTypeReference ) ) )? otherlv_4= '{' ( (lv_features_5_0= ruleFeature ) )* otherlv_6= '}' )
+            // InternalJp.g:441:2: ( (otherlv_0= 'class' ( (lv_name_1_0= ruleValidID ) ) (otherlv_2= 'extends' ( (lv_superType_3_0= ruleJvmParameterizedTypeReference ) ) )? otherlv_4= '{' ( (lv_features_5_0= ruleJpFeature ) )* otherlv_6= '}' ) )
+            // InternalJp.g:442:2: (otherlv_0= 'class' ( (lv_name_1_0= ruleValidID ) ) (otherlv_2= 'extends' ( (lv_superType_3_0= ruleJvmParameterizedTypeReference ) ) )? otherlv_4= '{' ( (lv_features_5_0= ruleJpFeature ) )* otherlv_6= '}' )
             {
-            // InternalJp.g:442:2: (otherlv_0= 'class' ( (lv_name_1_0= ruleValidID ) ) (otherlv_2= 'extends' ( (lv_superType_3_0= ruleJvmParameterizedTypeReference ) ) )? otherlv_4= '{' ( (lv_features_5_0= ruleFeature ) )* otherlv_6= '}' )
-            // InternalJp.g:443:3: otherlv_0= 'class' ( (lv_name_1_0= ruleValidID ) ) (otherlv_2= 'extends' ( (lv_superType_3_0= ruleJvmParameterizedTypeReference ) ) )? otherlv_4= '{' ( (lv_features_5_0= ruleFeature ) )* otherlv_6= '}'
+            // InternalJp.g:442:2: (otherlv_0= 'class' ( (lv_name_1_0= ruleValidID ) ) (otherlv_2= 'extends' ( (lv_superType_3_0= ruleJvmParameterizedTypeReference ) ) )? otherlv_4= '{' ( (lv_features_5_0= ruleJpFeature ) )* otherlv_6= '}' )
+            // InternalJp.g:443:3: otherlv_0= 'class' ( (lv_name_1_0= ruleValidID ) ) (otherlv_2= 'extends' ( (lv_superType_3_0= ruleJvmParameterizedTypeReference ) ) )? otherlv_4= '{' ( (lv_features_5_0= ruleJpFeature ) )* otherlv_6= '}'
             {
             otherlv_0=(Token)match(input,20,FOLLOW_4); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -1408,7 +1408,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
               			newLeafNode(otherlv_4, grammarAccess.getJpClassAccess().getLeftCurlyBracketKeyword_3());
               		
             }
-            // InternalJp.g:495:3: ( (lv_features_5_0= ruleFeature ) )*
+            // InternalJp.g:495:3: ( (lv_features_5_0= ruleJpFeature ) )*
             loop11:
             do {
                 int alt11=2;
@@ -1421,18 +1421,18 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
 
                 switch (alt11) {
             	case 1 :
-            	    // InternalJp.g:496:4: (lv_features_5_0= ruleFeature )
+            	    // InternalJp.g:496:4: (lv_features_5_0= ruleJpFeature )
             	    {
-            	    // InternalJp.g:496:4: (lv_features_5_0= ruleFeature )
-            	    // InternalJp.g:497:5: lv_features_5_0= ruleFeature
+            	    // InternalJp.g:496:4: (lv_features_5_0= ruleJpFeature )
+            	    // InternalJp.g:497:5: lv_features_5_0= ruleJpFeature
             	    {
             	    if ( state.backtracking==0 ) {
 
-            	      					newCompositeNode(grammarAccess.getJpClassAccess().getFeaturesFeatureParserRuleCall_4_0());
+            	      					newCompositeNode(grammarAccess.getJpClassAccess().getFeaturesJpFeatureParserRuleCall_4_0());
             	      				
             	    }
             	    pushFollow(FOLLOW_12);
-            	    lv_features_5_0=ruleFeature();
+            	    lv_features_5_0=ruleJpFeature();
 
             	    state._fsp--;
             	    if (state.failed) return current;
@@ -1445,7 +1445,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             	      						current,
             	      						"features",
             	      						lv_features_5_0,
-            	      						"cn.simbaba.mydsl.Jp.Feature");
+            	      						"cn.simbaba.mydsl.Jp.JpFeature");
             	      					afterParserOrEnumRuleCall();
             	      				
             	    }
@@ -1491,28 +1491,28 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleJpClass"
 
 
-    // $ANTLR start "entryRuleFeature"
-    // InternalJp.g:522:1: entryRuleFeature returns [EObject current=null] : iv_ruleFeature= ruleFeature EOF ;
-    public final EObject entryRuleFeature() throws RecognitionException {
+    // $ANTLR start "entryRuleJpFeature"
+    // InternalJp.g:522:1: entryRuleJpFeature returns [EObject current=null] : iv_ruleJpFeature= ruleJpFeature EOF ;
+    public final EObject entryRuleJpFeature() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleFeature = null;
+        EObject iv_ruleJpFeature = null;
 
 
         try {
-            // InternalJp.g:522:48: (iv_ruleFeature= ruleFeature EOF )
-            // InternalJp.g:523:2: iv_ruleFeature= ruleFeature EOF
+            // InternalJp.g:522:50: (iv_ruleJpFeature= ruleJpFeature EOF )
+            // InternalJp.g:523:2: iv_ruleJpFeature= ruleJpFeature EOF
             {
             if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getFeatureRule()); 
+               newCompositeNode(grammarAccess.getJpFeatureRule()); 
             }
             pushFollow(FOLLOW_1);
-            iv_ruleFeature=ruleFeature();
+            iv_ruleJpFeature=ruleJpFeature();
 
             state._fsp--;
             if (state.failed) return current;
             if ( state.backtracking==0 ) {
-               current =iv_ruleFeature; 
+               current =iv_ruleJpFeature; 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return current;
 
@@ -1528,27 +1528,27 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleFeature"
+    // $ANTLR end "entryRuleJpFeature"
 
 
-    // $ANTLR start "ruleFeature"
-    // InternalJp.g:529:1: ruleFeature returns [EObject current=null] : (this_Property_0= ruleProperty | this_Operation_1= ruleOperation ) ;
-    public final EObject ruleFeature() throws RecognitionException {
+    // $ANTLR start "ruleJpFeature"
+    // InternalJp.g:529:1: ruleJpFeature returns [EObject current=null] : (this_JpProperty_0= ruleJpProperty | this_JpOperation_1= ruleJpOperation ) ;
+    public final EObject ruleJpFeature() throws RecognitionException {
         EObject current = null;
 
-        EObject this_Property_0 = null;
+        EObject this_JpProperty_0 = null;
 
-        EObject this_Operation_1 = null;
+        EObject this_JpOperation_1 = null;
 
 
 
         	enterRule();
 
         try {
-            // InternalJp.g:535:2: ( (this_Property_0= ruleProperty | this_Operation_1= ruleOperation ) )
-            // InternalJp.g:536:2: (this_Property_0= ruleProperty | this_Operation_1= ruleOperation )
+            // InternalJp.g:535:2: ( (this_JpProperty_0= ruleJpProperty | this_JpOperation_1= ruleJpOperation ) )
+            // InternalJp.g:536:2: (this_JpProperty_0= ruleJpProperty | this_JpOperation_1= ruleJpOperation )
             {
-            // InternalJp.g:536:2: (this_Property_0= ruleProperty | this_Operation_1= ruleOperation )
+            // InternalJp.g:536:2: (this_JpProperty_0= ruleJpProperty | this_JpOperation_1= ruleJpOperation )
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -1567,21 +1567,21 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             }
             switch (alt12) {
                 case 1 :
-                    // InternalJp.g:537:3: this_Property_0= ruleProperty
+                    // InternalJp.g:537:3: this_JpProperty_0= ruleJpProperty
                     {
                     if ( state.backtracking==0 ) {
 
-                      			newCompositeNode(grammarAccess.getFeatureAccess().getPropertyParserRuleCall_0());
+                      			newCompositeNode(grammarAccess.getJpFeatureAccess().getJpPropertyParserRuleCall_0());
                       		
                     }
                     pushFollow(FOLLOW_2);
-                    this_Property_0=ruleProperty();
+                    this_JpProperty_0=ruleJpProperty();
 
                     state._fsp--;
                     if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      			current = this_Property_0;
+                      			current = this_JpProperty_0;
                       			afterParserOrEnumRuleCall();
                       		
                     }
@@ -1589,21 +1589,21 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalJp.g:546:3: this_Operation_1= ruleOperation
+                    // InternalJp.g:546:3: this_JpOperation_1= ruleJpOperation
                     {
                     if ( state.backtracking==0 ) {
 
-                      			newCompositeNode(grammarAccess.getFeatureAccess().getOperationParserRuleCall_1());
+                      			newCompositeNode(grammarAccess.getJpFeatureAccess().getJpOperationParserRuleCall_1());
                       		
                     }
                     pushFollow(FOLLOW_2);
-                    this_Operation_1=ruleOperation();
+                    this_JpOperation_1=ruleJpOperation();
 
                     state._fsp--;
                     if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      			current = this_Operation_1;
+                      			current = this_JpOperation_1;
                       			afterParserOrEnumRuleCall();
                       		
                     }
@@ -1631,31 +1631,31 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleFeature"
+    // $ANTLR end "ruleJpFeature"
 
 
-    // $ANTLR start "entryRuleProperty"
-    // InternalJp.g:558:1: entryRuleProperty returns [EObject current=null] : iv_ruleProperty= ruleProperty EOF ;
-    public final EObject entryRuleProperty() throws RecognitionException {
+    // $ANTLR start "entryRuleJpProperty"
+    // InternalJp.g:558:1: entryRuleJpProperty returns [EObject current=null] : iv_ruleJpProperty= ruleJpProperty EOF ;
+    public final EObject entryRuleJpProperty() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleProperty = null;
+        EObject iv_ruleJpProperty = null;
 
 
         try {
-            // InternalJp.g:558:49: (iv_ruleProperty= ruleProperty EOF )
-            // InternalJp.g:559:2: iv_ruleProperty= ruleProperty EOF
+            // InternalJp.g:558:51: (iv_ruleJpProperty= ruleJpProperty EOF )
+            // InternalJp.g:559:2: iv_ruleJpProperty= ruleJpProperty EOF
             {
             if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getPropertyRule()); 
+               newCompositeNode(grammarAccess.getJpPropertyRule()); 
             }
             pushFollow(FOLLOW_1);
-            iv_ruleProperty=ruleProperty();
+            iv_ruleJpProperty=ruleJpProperty();
 
             state._fsp--;
             if (state.failed) return current;
             if ( state.backtracking==0 ) {
-               current =iv_ruleProperty; 
+               current =iv_ruleJpProperty; 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return current;
 
@@ -1671,12 +1671,12 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleProperty"
+    // $ANTLR end "entryRuleJpProperty"
 
 
-    // $ANTLR start "ruleProperty"
-    // InternalJp.g:565:1: ruleProperty returns [EObject current=null] : ( ( (lv_name_0_0= ruleValidID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleJvmTypeReference ) ) ) ;
-    public final EObject ruleProperty() throws RecognitionException {
+    // $ANTLR start "ruleJpProperty"
+    // InternalJp.g:565:1: ruleJpProperty returns [EObject current=null] : ( ( (lv_name_0_0= ruleValidID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleJvmTypeReference ) ) ) ;
+    public final EObject ruleJpProperty() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_1=null;
@@ -1703,7 +1703,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getPropertyAccess().getNameValidIDParserRuleCall_0_0());
+              					newCompositeNode(grammarAccess.getJpPropertyAccess().getNameValidIDParserRuleCall_0_0());
               				
             }
             pushFollow(FOLLOW_13);
@@ -1714,7 +1714,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
 
               					if (current==null) {
-              						current = createModelElementForParent(grammarAccess.getPropertyRule());
+              						current = createModelElementForParent(grammarAccess.getJpPropertyRule());
               					}
               					set(
               						current,
@@ -1733,7 +1733,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             otherlv_1=(Token)match(input,21,FOLLOW_14); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_1, grammarAccess.getPropertyAccess().getColonKeyword_1());
+              			newLeafNode(otherlv_1, grammarAccess.getJpPropertyAccess().getColonKeyword_1());
               		
             }
             // InternalJp.g:596:3: ( (lv_type_2_0= ruleJvmTypeReference ) )
@@ -1744,7 +1744,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getPropertyAccess().getTypeJvmTypeReferenceParserRuleCall_2_0());
+              					newCompositeNode(grammarAccess.getJpPropertyAccess().getTypeJvmTypeReferenceParserRuleCall_2_0());
               				
             }
             pushFollow(FOLLOW_2);
@@ -1755,7 +1755,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
 
               					if (current==null) {
-              						current = createModelElementForParent(grammarAccess.getPropertyRule());
+              						current = createModelElementForParent(grammarAccess.getJpPropertyRule());
               					}
               					set(
               						current,
@@ -1792,31 +1792,31 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleProperty"
+    // $ANTLR end "ruleJpProperty"
 
 
-    // $ANTLR start "entryRuleOperation"
-    // InternalJp.g:619:1: entryRuleOperation returns [EObject current=null] : iv_ruleOperation= ruleOperation EOF ;
-    public final EObject entryRuleOperation() throws RecognitionException {
+    // $ANTLR start "entryRuleJpOperation"
+    // InternalJp.g:619:1: entryRuleJpOperation returns [EObject current=null] : iv_ruleJpOperation= ruleJpOperation EOF ;
+    public final EObject entryRuleJpOperation() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleOperation = null;
+        EObject iv_ruleJpOperation = null;
 
 
         try {
-            // InternalJp.g:619:50: (iv_ruleOperation= ruleOperation EOF )
-            // InternalJp.g:620:2: iv_ruleOperation= ruleOperation EOF
+            // InternalJp.g:619:52: (iv_ruleJpOperation= ruleJpOperation EOF )
+            // InternalJp.g:620:2: iv_ruleJpOperation= ruleJpOperation EOF
             {
             if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getOperationRule()); 
+               newCompositeNode(grammarAccess.getJpOperationRule()); 
             }
             pushFollow(FOLLOW_1);
-            iv_ruleOperation=ruleOperation();
+            iv_ruleJpOperation=ruleJpOperation();
 
             state._fsp--;
             if (state.failed) return current;
             if ( state.backtracking==0 ) {
-               current =iv_ruleOperation; 
+               current =iv_ruleJpOperation; 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return current;
 
@@ -1832,12 +1832,12 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleOperation"
+    // $ANTLR end "entryRuleJpOperation"
 
 
-    // $ANTLR start "ruleOperation"
-    // InternalJp.g:626:1: ruleOperation returns [EObject current=null] : (otherlv_0= 'def' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '(' ( ( (lv_params_3_0= ruleFullJvmFormalParameter ) ) (otherlv_4= ',' ( (lv_params_5_0= ruleFullJvmFormalParameter ) ) )* )? otherlv_6= ')' (otherlv_7= ':' ( (lv_type_8_0= ruleJvmTypeReference ) ) )? ( (lv_body_9_0= ruleXBlockExpression ) ) ) ;
-    public final EObject ruleOperation() throws RecognitionException {
+    // $ANTLR start "ruleJpOperation"
+    // InternalJp.g:626:1: ruleJpOperation returns [EObject current=null] : (otherlv_0= 'def' ( (lv_name_1_0= ruleValidID ) ) otherlv_2= '(' ( ( (lv_params_3_0= ruleFullJvmFormalParameter ) ) (otherlv_4= ',' ( (lv_params_5_0= ruleFullJvmFormalParameter ) ) )* )? otherlv_6= ')' (otherlv_7= ':' ( (lv_type_8_0= ruleJvmTypeReference ) ) )? ( (lv_body_9_0= ruleXBlockExpression ) ) ) ;
+    public final EObject ruleJpOperation() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_0=null;
@@ -1869,7 +1869,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             otherlv_0=(Token)match(input,22,FOLLOW_4); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_0, grammarAccess.getOperationAccess().getDefKeyword_0());
+              			newLeafNode(otherlv_0, grammarAccess.getJpOperationAccess().getDefKeyword_0());
               		
             }
             // InternalJp.g:638:3: ( (lv_name_1_0= ruleValidID ) )
@@ -1880,7 +1880,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getOperationAccess().getNameValidIDParserRuleCall_1_0());
+              					newCompositeNode(grammarAccess.getJpOperationAccess().getNameValidIDParserRuleCall_1_0());
               				
             }
             pushFollow(FOLLOW_15);
@@ -1891,7 +1891,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
 
               					if (current==null) {
-              						current = createModelElementForParent(grammarAccess.getOperationRule());
+              						current = createModelElementForParent(grammarAccess.getJpOperationRule());
               					}
               					set(
               						current,
@@ -1910,7 +1910,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             otherlv_2=(Token)match(input,23,FOLLOW_16); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_2, grammarAccess.getOperationAccess().getLeftParenthesisKeyword_2());
+              			newLeafNode(otherlv_2, grammarAccess.getJpOperationAccess().getLeftParenthesisKeyword_2());
               		
             }
             // InternalJp.g:661:3: ( ( (lv_params_3_0= ruleFullJvmFormalParameter ) ) (otherlv_4= ',' ( (lv_params_5_0= ruleFullJvmFormalParameter ) ) )* )?
@@ -1932,7 +1932,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
                     {
                     if ( state.backtracking==0 ) {
 
-                      						newCompositeNode(grammarAccess.getOperationAccess().getParamsFullJvmFormalParameterParserRuleCall_3_0_0());
+                      						newCompositeNode(grammarAccess.getJpOperationAccess().getParamsFullJvmFormalParameterParserRuleCall_3_0_0());
                       					
                     }
                     pushFollow(FOLLOW_17);
@@ -1943,7 +1943,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
                     if ( state.backtracking==0 ) {
 
                       						if (current==null) {
-                      							current = createModelElementForParent(grammarAccess.getOperationRule());
+                      							current = createModelElementForParent(grammarAccess.getJpOperationRule());
                       						}
                       						add(
                       							current,
@@ -1977,7 +1977,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
                     	    otherlv_4=(Token)match(input,24,FOLLOW_14); if (state.failed) return current;
                     	    if ( state.backtracking==0 ) {
 
-                    	      					newLeafNode(otherlv_4, grammarAccess.getOperationAccess().getCommaKeyword_3_1_0());
+                    	      					newLeafNode(otherlv_4, grammarAccess.getJpOperationAccess().getCommaKeyword_3_1_0());
                     	      				
                     	    }
                     	    // InternalJp.g:686:5: ( (lv_params_5_0= ruleFullJvmFormalParameter ) )
@@ -1988,7 +1988,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
                     	    {
                     	    if ( state.backtracking==0 ) {
 
-                    	      							newCompositeNode(grammarAccess.getOperationAccess().getParamsFullJvmFormalParameterParserRuleCall_3_1_1_0());
+                    	      							newCompositeNode(grammarAccess.getJpOperationAccess().getParamsFullJvmFormalParameterParserRuleCall_3_1_1_0());
                     	      						
                     	    }
                     	    pushFollow(FOLLOW_17);
@@ -1999,7 +1999,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
                     	    if ( state.backtracking==0 ) {
 
                     	      							if (current==null) {
-                    	      								current = createModelElementForParent(grammarAccess.getOperationRule());
+                    	      								current = createModelElementForParent(grammarAccess.getJpOperationRule());
                     	      							}
                     	      							add(
                     	      								current,
@@ -2033,7 +2033,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             otherlv_6=(Token)match(input,25,FOLLOW_18); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_6, grammarAccess.getOperationAccess().getRightParenthesisKeyword_4());
+              			newLeafNode(otherlv_6, grammarAccess.getJpOperationAccess().getRightParenthesisKeyword_4());
               		
             }
             // InternalJp.g:711:3: (otherlv_7= ':' ( (lv_type_8_0= ruleJvmTypeReference ) ) )?
@@ -2050,7 +2050,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
                     otherlv_7=(Token)match(input,21,FOLLOW_14); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      				newLeafNode(otherlv_7, grammarAccess.getOperationAccess().getColonKeyword_5_0());
+                      				newLeafNode(otherlv_7, grammarAccess.getJpOperationAccess().getColonKeyword_5_0());
                       			
                     }
                     // InternalJp.g:716:4: ( (lv_type_8_0= ruleJvmTypeReference ) )
@@ -2061,7 +2061,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
                     {
                     if ( state.backtracking==0 ) {
 
-                      						newCompositeNode(grammarAccess.getOperationAccess().getTypeJvmTypeReferenceParserRuleCall_5_1_0());
+                      						newCompositeNode(grammarAccess.getJpOperationAccess().getTypeJvmTypeReferenceParserRuleCall_5_1_0());
                       					
                     }
                     pushFollow(FOLLOW_9);
@@ -2072,7 +2072,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
                     if ( state.backtracking==0 ) {
 
                       						if (current==null) {
-                      							current = createModelElementForParent(grammarAccess.getOperationRule());
+                      							current = createModelElementForParent(grammarAccess.getJpOperationRule());
                       						}
                       						set(
                       							current,
@@ -2102,7 +2102,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getOperationAccess().getBodyXBlockExpressionParserRuleCall_6_0());
+              					newCompositeNode(grammarAccess.getJpOperationAccess().getBodyXBlockExpressionParserRuleCall_6_0());
               				
             }
             pushFollow(FOLLOW_2);
@@ -2113,7 +2113,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
 
               					if (current==null) {
-              						current = createModelElementForParent(grammarAccess.getOperationRule());
+              						current = createModelElementForParent(grammarAccess.getJpOperationRule());
               					}
               					set(
               						current,
@@ -2150,7 +2150,7 @@ public class InternalJpParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleOperation"
+    // $ANTLR end "ruleJpOperation"
 
 
     // $ANTLR start "entryRuleJpStatementOrBlock"

@@ -27,5 +27,6 @@ Export-Package: cn.simbaba.mydsl,
  cn.simbaba.mydsl.validation,
  cn.simbaba.mydsl.jp.impl,
  cn.simbaba.mydsl.jp.util,
- cn.simbaba.mydsl.scoping
+ cn.simbaba.mydsl.scoping,
+ cn.simbaba.mydsl.formatting2
 Import-Package: org.apache.log4j

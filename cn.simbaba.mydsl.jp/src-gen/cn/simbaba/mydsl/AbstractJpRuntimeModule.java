@@ -3,6 +3,7 @@
  */
 package cn.simbaba.mydsl;
 
+import cn.simbaba.mydsl.formatting2.JpFormatter;
 import cn.simbaba.mydsl.jvmmodel.JpJvmModelInferrer;
 import cn.simbaba.mydsl.parser.antlr.JpAntlrTokenFileProvider;
 import cn.simbaba.mydsl.parser.antlr.JpParser;
@@ -20,6 +21,9 @@ import java.util.Properties;
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.common.types.xtext.TypesAwareDefaultGlobalScopeProvider;
+import org.eclipse.xtext.formatting2.FormatterPreferenceValuesProvider;
+import org.eclipse.xtext.formatting2.FormatterPreferences;
+import org.eclipse.xtext.formatting2.IFormatter2;
 import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parser.IParser;
 import org.eclipse.xtext.parser.ITokenToStringConverter;
@@ -30,6 +34,7 @@ import org.eclipse.xtext.parser.antlr.ITokenDefProvider;
 import org.eclipse.xtext.parser.antlr.Lexer;
 import org.eclipse.xtext.parser.antlr.LexerBindings;
 import org.eclipse.xtext.parser.antlr.LexerProvider;
+import org.eclipse.xtext.preferences.IPreferenceValuesProvider;
 import org.eclipse.xtext.resource.IContainer;
 import org.eclipse.xtext.resource.ILocationInFileProvider;
 import org.eclipse.xtext.resource.IResourceDescriptions;
@@ -192,6 +197,16 @@ public abstract class AbstractJpRuntimeModule extends DefaultXbaseRuntimeModule 
 	// contributed by org.eclipse.xtext.xtext.generator.builder.BuilderIntegrationFragment2
 	public void configureIResourceDescriptionsPersisted(Binder binder) {
 		binder.bind(IResourceDescriptions.class).annotatedWith(Names.named(ResourceDescriptionsProvider.PERSISTED_DESCRIPTIONS)).to(ResourceSetBasedResourceDescriptions.class);
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.formatting.Formatter2Fragment2
+	public Class<? extends IFormatter2> bindIFormatter2() {
+		return JpFormatter.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.formatting.Formatter2Fragment2
+	public void configureFormatterPreferences(Binder binder) {
+		binder.bind(IPreferenceValuesProvider.class).annotatedWith(FormatterPreferences.class).to(FormatterPreferenceValuesProvider.class);
 	}
 	
 	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2

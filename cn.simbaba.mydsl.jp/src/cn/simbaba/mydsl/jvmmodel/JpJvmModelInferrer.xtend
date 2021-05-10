@@ -3,11 +3,18 @@
  */
 package cn.simbaba.mydsl.jvmmodel
 
-import cn.simbaba.mydsl.jp.JpModel
 import com.google.inject.Inject
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
+import cn.simbaba.mydsl.jp.JpScript
+import org.eclipse.xtext.xbase.XFeatureCall
+import org.eclipse.xtext.common.types.JvmDeclaredType
+import cn.simbaba.mydsl.jp.JpProperty
+import cn.simbaba.mydsl.jp.JpOperation
+import cn.simbaba.mydsl.jp.JpClass
+import org.eclipse.xtext.naming.IQualifiedNameProvider
+import org.eclipse.xtext.xbase.jvmmodel.IJvmModelAssociations
 
 /**
  * <p>Infers a JVM model from the source model.</p>
@@ -17,46 +24,111 @@ import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
  */
 class JpJvmModelInferrer extends AbstractModelInferrer {
 
-	/**
-	 * convenience API to build and initialize JVM types and their members.
-	 */
 	@Inject extension JvmTypesBuilder
+	@Inject extension IQualifiedNameProvider
+	@Inject extension JpJvmModelHelper
+	@Inject extension IJvmModelAssociations
 
-	/**
-	 * The dispatch method {@code infer} is called for each instance of the
-	 * given element's type that is contained in a resource.
-	 *
-	 * @param element
-	 *            the model to create one or more
-	 *            {@link org.eclipse.xtext.common.types.JvmDeclaredType declared
-	 *            types} from.
-	 * @param acceptor
-	 *            each created
-	 *            {@link org.eclipse.xtext.common.types.JvmDeclaredType type}
-	 *            without a container should be passed to the acceptor in order
-	 *            get attached to the current resource. The acceptor's
-	 *            {@link IJvmDeclaredTypeAcceptor#accept(org.eclipse.xtext.common.types.JvmDeclaredType)
-	 *            accept(..)} method takes the constructed empty type for the
-	 *            pre-indexing phase. This one is further initialized in the
-	 *            indexing phase using the lambda you pass as the last argument.
-	 * @param isPreIndexingPhase
-	 *            whether the method is called in a pre-indexing phase, i.e.
-	 *            when the global index is not yet fully updated. You must not
-	 *            rely on linking using the index if isPreIndexingPhase is
-	 *            <code>true</code>.
-	 */
-	def dispatch void infer(JpModel element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
-		// Here you explain how your model is mapped to Java elements, by writing the actual translation code.
-		
-		// An implementation for the initial hello world example could look like this:
-//		acceptor.accept(element.toClass("my.company.greeting.MyGreetings")) [
-//			for (greeting : element.greetings) {
-//				members += greeting.toMethod("hello" + greeting.name, typeRef(String)) [
-//					body = '''
-//						return "Hello «greeting.name»";
-//					'''
-//				]
-//			}
-//		]
+	def dispatch infer(JpScript script, extension IJvmDeclaredTypeAcceptor acceptor, boolean prelinkingPhase) {
+		accept(script.toClass( script.fullyQualifiedName )) [
+			documentation = script.documentation
+			if (script.superType !== null)
+				superTypes += script.superType.cloneWithProxies
+
+			// let's add a default constructor
+			members += script.toConstructor []
+
+			// now let's go over the features
+			for ( f : script.operations ) {
+				// operations are mapped to methods
+
+				members += f.toMethod(f.name, f.type ?: inferredType) [
+					static = true
+					documentation = f.documentation
+					for (p : f.params) {
+						parameters += p.toParameter(p.name, p.parameterType)
+					}
+					// here the body is implemented using a user expression.
+					// Note that by doing this we set the expression into the context of this method,
+					// The parameters, 'this' and all the members of this method will be visible for the expression.
+					body = f.body
+				]	
+			}
+
+			// statements are mapped to main
+			members += script.toMethod('main', typeRef(Void.TYPE))  [
+				parameters += script.toParameter("args", typeRef(String).addArrayTypeDimension)
+				static = true
+				varArgs = true
+				body = script.scriptBody
+			]
+		]
+	}
+
+	def dispatch infer(JpClass entity, extension IJvmDeclaredTypeAcceptor acceptor, boolean prelinkingPhase) {
+		accept(entity.toClass( entity.fullyQualifiedName )) [
+			documentation = entity.documentation
+			if (entity.superType !== null)
+				superTypes += entity.superType.cloneWithProxies
+
+			// now let's go over the features
+			for ( f : entity.features ) {
+				switch f {
+
+					// for properties we create a field, a getter and a setter
+					JpProperty : {
+						val field = f.toField(f.name, f.type)
+						members += field
+						members += f.toGetter(f.name, f.type)
+						members += f.toSetter(f.name, f.type)
+					}
+
+					// operations are mapped to methods
+					JpOperation : {
+						if (f.name == 'init') {
+							members += entity.toConstructor [
+								documentation = f.documentation
+								for (p : f.params) {
+									parameters += p.toParameter(p.name, p.parameterType)
+								}
+								body = f.body
+							]
+						} else {
+							members += f.toMethod(f.name, f.type ?: inferredType) [
+								documentation = f.documentation
+								for (p : f.params) {
+									parameters += p.toParameter(p.name, p.parameterType)
+								}
+								// here the body is implemented using a user expression.
+								// Note that by doing this we set the expression into the context of this method,
+								// The parameters, 'this' and all the members of this method will be visible for the expression.
+								body = f.body
+							]
+						}
+					}
+				}
+			}
+
+			// remove created getters/setters in case they
+			// are explicit in the source code
+			removeDuplicateGettersSetters
+
+			// finally we want to have a nice toString methods.
+			members += entity.toToStringMethod(it)
+		]
+	}
+	
+	def dispatch infer(XFeatureCall call, extension IJvmDeclaredTypeAcceptor acceptor, boolean prelinkingPhase) {
+		super.infer(call, acceptor, prelinkingPhase);
+	}
+
+	def private removeDuplicateGettersSetters(JvmDeclaredType inferredType) {
+		inferredType.handleDuplicateJvmOperations[jvmOperations|
+			// we only remove getters/setters we created automatically
+			val getterOrSetter = jvmOperations.filter[primarySourceElement instanceof JpProperty].head
+			if (getterOrSetter !== null)
+				inferredType.members.remove(getterOrSetter)
+			// other duplicated methods will be reported by the validator
+		]
 	}
 }

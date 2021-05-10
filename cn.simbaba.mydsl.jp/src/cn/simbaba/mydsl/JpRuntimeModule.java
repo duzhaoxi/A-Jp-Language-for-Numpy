@@ -3,9 +3,84 @@
  */
 package cn.simbaba.mydsl;
 
+import org.eclipse.xtext.generator.IGenerator;
+import org.eclipse.xtext.resource.persistence.IResourceStorageFacade;
+import org.eclipse.xtext.scoping.IScopeProvider;
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
+import org.eclipse.xtext.service.SingletonBinding;
+import org.eclipse.xtext.xbase.compiler.XbaseCompiler;
+import org.eclipse.xtext.xbase.resource.BatchLinkableResourceStorageFacade;
+import org.eclipse.xtext.xbase.scoping.batch.ImplicitlyImportedFeatures;
+import org.eclipse.xtext.xbase.scoping.featurecalls.OperatorMapping;
+import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer;
+import org.eclipse.xtext.xbase.typesystem.internal.ExpressionArgumentFactory;
+
+import com.google.inject.Binder;
+import com.google.inject.name.Names;
+
+import cn.simbaba.mydsl.compile.JpCompiler;
+import cn.simbaba.mydsl.compile.JpJvmModelGenerator;
+import cn.simbaba.mydsl.operator.JpOperatorCustom;
+import cn.simbaba.mydsl.scoping.ImportAsScopeProvider;
+import cn.simbaba.mydsl.scoping.JpExtensionProvider;
+import cn.simbaba.mydsl.typesystem.JpExpressionArgumentFactory;
+import cn.simbaba.mydsl.typesystem.JpTypeComputer;
+import cn.simbaba.mydsl.validation.JpValidator;
+
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class JpRuntimeModule extends AbstractJpRuntimeModule {
+	public Class<? extends IResourceStorageFacade> bindResourceStorageFacade() {
+		return BatchLinkableResourceStorageFacade.class;
+	}
+
+	public Class<? extends OperatorMapping> bindOperatorMapping() {
+		return JpOperatorCustom.class;
+	}
+
+	public Class<? extends ITypeComputer> bindITypeComputer() {
+		return JpTypeComputer.class;
+	}
+
+	@Override
+	public void configureIScopeProviderDelegate(Binder binder) {
+		binder.bind(IScopeProvider.class).annotatedWith(
+			Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(ImportAsScopeProvider.class);
+	}
+
+	// contributed by org.eclipse.xtext.xtext.generator.validation.ValidatorFragment2
+	@Override
+	@SingletonBinding(eager=true)
+	public Class<? extends JpValidator> bindJpValidator() {
+		return JpValidator.class;
+	}
+
+	@Override
+	public Class<? extends IGenerator> bindIGenerator() {
+		return JpJvmModelGenerator.class;
+	}
+
+	public Class<? extends XbaseCompiler> bindXbaseCompiler() {
+		return JpCompiler.class;
+	}
+
+//	@Override
+//	public Class<? extends IValueConverterService> bindIValueConverterService() {
+//		return JpConvertService.class;
+//	}
+
+	public Class<? extends ImplicitlyImportedFeatures > bindExtensionClassNameProvider() {
+		return JpExtensionProvider.class;
+	}
+	
+	public Class<? extends ExpressionArgumentFactory> bindExpressionArgumentFactory() {
+		return JpExpressionArgumentFactory.class;
+	}
+	
+	// contributed by org.eclipse.xtext.xtext.generator.xbase.XbaseGeneratorFragment2
+//	public Class<? extends DefaultReentrantTypeResolver> bindDefaultReentrantTypeResolver() {
+//		return JpLogicalContainerAwareReentrantTypeResolver.class;
+//	}
 }

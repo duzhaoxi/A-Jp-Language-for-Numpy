@@ -22,7 +22,7 @@ import org.eclipse.xtext.serializer.sequencer.AbstractSyntacticSequencer;
 public class JpSyntacticSequencer extends AbstractSyntacticSequencer {
 
 	protected JpGrammarAccess grammarAccess;
-	protected AbstractElementAlias match_ScriptBody_SemicolonKeyword_1_1_q;
+	protected AbstractElementAlias match_JpScriptBody_SemicolonKeyword_1_1_q;
 	protected AbstractElementAlias match_XBlockExpression_SemicolonKeyword_2_1_q;
 	protected AbstractElementAlias match_XExpressionInClosure_SemicolonKeyword_1_1_q;
 	protected AbstractElementAlias match_XForLoopExpression_ColonKeyword_0_0_4_0_or_InKeyword_0_0_4_1;
@@ -34,7 +34,7 @@ public class JpSyntacticSequencer extends AbstractSyntacticSequencer {
 	@Inject
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (JpGrammarAccess) access;
-		match_ScriptBody_SemicolonKeyword_1_1_q = new TokenAlias(false, true, grammarAccess.getScriptBodyAccess().getSemicolonKeyword_1_1());
+		match_JpScriptBody_SemicolonKeyword_1_1_q = new TokenAlias(false, true, grammarAccess.getJpScriptBodyAccess().getSemicolonKeyword_1_1());
 		match_XBlockExpression_SemicolonKeyword_2_1_q = new TokenAlias(false, true, grammarAccess.getXBlockExpressionAccess().getSemicolonKeyword_2_1());
 		match_XExpressionInClosure_SemicolonKeyword_1_1_q = new TokenAlias(false, true, grammarAccess.getXExpressionInClosureAccess().getSemicolonKeyword_1_1());
 		match_XForLoopExpression_ColonKeyword_0_0_4_0_or_InKeyword_0_0_4_1 = new AlternativeAlias(false, false, new TokenAlias(false, false, grammarAccess.getXForLoopExpressionAccess().getColonKeyword_0_0_4_0()), new TokenAlias(false, false, grammarAccess.getXForLoopExpressionAccess().getInKeyword_0_0_4_1()));
@@ -81,8 +81,8 @@ public class JpSyntacticSequencer extends AbstractSyntacticSequencer {
 		List<INode> transitionNodes = collectNodes(fromNode, toNode);
 		for (AbstractElementAlias syntax : transition.getAmbiguousSyntaxes()) {
 			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
-			if (match_ScriptBody_SemicolonKeyword_1_1_q.equals(syntax))
-				emit_ScriptBody_SemicolonKeyword_1_1_q(semanticObject, getLastNavigableState(), syntaxNodes);
+			if (match_JpScriptBody_SemicolonKeyword_1_1_q.equals(syntax))
+				emit_JpScriptBody_SemicolonKeyword_1_1_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_XBlockExpression_SemicolonKeyword_2_1_q.equals(syntax))
 				emit_XBlockExpression_SemicolonKeyword_2_1_q(semanticObject, getLastNavigableState(), syntaxNodes);
 			else if (match_XExpressionInClosure_SemicolonKeyword_1_1_q.equals(syntax))
@@ -109,7 +109,7 @@ public class JpSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     expressions+=JpStatementOrBlock (ambiguity) (rule end)
 	 *     expressions+=JpStatementOrBlock (ambiguity) expressions+=JpStatementOrBlock
 	 */
-	protected void emit_ScriptBody_SemicolonKeyword_1_1_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_JpScriptBody_SemicolonKeyword_1_1_q(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

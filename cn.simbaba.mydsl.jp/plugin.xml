@@ -5,6 +5,6 @@
 		<package
 			uri = "http://www.simbaba.cn/mydsl/Jp"
 			class = "cn.simbaba.mydsl.jp.JpPackage"
-			genModel = "model/generated/Jp.genmodel" />
+			genModel = "model/custom/Jp.genmodel" />
 	</extension>
 </plugin>
