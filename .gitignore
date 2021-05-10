@@ -1,0 +1,33 @@
+.DS_Store
+
+*.class
+bin/
+*~
+logs.zip
+*.orig
+*.java._trace
+*.smap
+
+build
+.gradle
+
+# we handle separately in the projects
+# src-gen/
+
+xtend-gen/
+emf-gen/
+gen
+
+.settings/
+.classpath
+.project
+
+buildroot
+
+out
+target
+#generated
+generated-sources
+.metadata
+
+node_modules

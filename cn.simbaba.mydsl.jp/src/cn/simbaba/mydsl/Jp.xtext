@@ -1,0 +1,370 @@
+grammar cn.simbaba.mydsl.Jp with org.eclipse.xtext.xbase.Xbase
+
+generate jp "http://www.simbaba.cn/mydsl/Jp"
+
+import "http://www.eclipse.org/xtext/xbase/Xbase"
+import "http://www.eclipse.org/xtext/common/JavaVMTypes" as types
+import "http://www.eclipse.org/xtext/xbase/Xtype" as xtype
+
+
+JpModel:
+	importSection=XImportSection?
+	elements+=JpElement*
+	scripts=JpScript?
+;
+
+JpScript:
+	'script' name=ValidID 'by' author=ID (=>'extends' superType=JvmParameterizedTypeReference)? 
+	operations+=Operation*
+	scriptBody=ScriptBody
+;
+
+ScriptBody returns XBlockExpression:
+	{ScriptBody}
+	(expressions+=JpStatementOrBlock ';'?)*
+;
+
+JpElement:
+	PackageDeclaration | JpClass;
+
+PackageDeclaration:
+	'package' name=QualifiedName '{'
+		elements+=JpElement*
+	'}'
+;
+
+JpClass:
+	'class' name=ValidID ('extends' superType=JvmParameterizedTypeReference)? '{'
+		features+=Feature*
+	'}'
+;
+
+Feature:
+	Property | Operation
+;
+
+Property:
+	name=ValidID ':' type=JvmTypeReference
+;
+
+Operation:
+	'def' name=ValidID '(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' (':' type=JvmTypeReference)?
+	body=XBlockExpression
+;
+
+/** 
+ * refer JBase
+ * The syntactic predicate on XBlockExpression is required to avoid
+ * ambiguity with array literal.  However, XBlockExpression must come first, to
+ * be able to parse both while(...) {} and while(...) st; for example.
+ * If we put the predicate on single statement, then it does not seem to
+ * be possible to parse incomplete member feature call.
+ */
+JpStatementOrBlock returns XExpression:
+//	JpArrayConstructorCall | not a valid statement
+	=>XBlockExpression |
+	JpSingleStatement
+;
+
+JpSingleStatement returns XExpression:
+	XSwitchExpression |
+	XIfExpression |
+	XForLoopExpression |
+	XBasicForLoopExpression |
+	XWhileExpression |
+	XTryCatchFinallyExpression |
+	XSynchronizedExpression |
+	JpBranchingStatement |
+	XExpressionOrVarDeclaration |
+	XDoWhileExpression |
+	XReturnExpression |
+	XThrowExpression |
+	XSynchronizedExpression |
+	JpWithOpenAs
+;
+
+JpBranchingStatement returns XExpression:
+	{JpContinueStatement} "continue" |
+	{JpBreakStatement} "break"
+;
+
+@Override 
+IdOrSuper :
+	FeatureCallID | 'super' | 'open'
+;
+
+JpWithOpenAsCall returns XFeatureCall:
+	{JpWithOpenCall}
+	feature=[types::JvmIdentifiableElement|IdOrSuper]
+	(=>explicitOperationCall?='('
+		(featureCallArguments+=XExpression (',' featureCallArguments+=XExpression)* )?
+	')')?
+;
+
+@Override 
+XFeatureCall returns XExpression:
+	{XFeatureCall}
+	('<' typeArguments+=JvmArgumentTypeReference (',' typeArguments+=JvmArgumentTypeReference)* '>')?
+	feature=[types::JvmIdentifiableElement|IdOrSuper]
+	(=>explicitOperationCall?='('
+		(
+		    featureCallArguments+=XShortClosure
+		  | featureCallArguments+=XExpression (',' featureCallArguments+=XExpression)*
+		)?
+	')')?
+;
+
+// dimensions and dimension expressions (feature indexes) are not associated during parsing,
+// the association, i.e., knowing whether a dimension expression comes after
+// an empty dimension (which is not legal), will be retrieved by
+// JpModelUtil.arrayDimensionIndexAssociations(JpArrayConstructorCall)
+// based on the offset of the [ and the array dimension XEpression
+JpArrayConstructorCall returns XExpression:
+	=>({JpArrayConstructorCall}
+	'new'
+	type=[types::JvmType|QualifiedName] dimensions+=JpArrayDimension) 
+	// getting here is enough to tell it's an array constructor call
+	(indexes+=XExpression)? ']'
+	(=>dimensions+=JpArrayDimension (indexes+=XExpression)? ']')*
+	(=>arrayLiteral=JpArrayLiteral)?
+;
+
+// it is a subclass of XListLiteral, so that we will reuse
+// type computation and compiler from Xbase
+JpArrayLiteral returns XListLiteral:
+	{JpArrayLiteral} '{' (elements+=XExpression (',' elements+=XExpression )*)? '}'
+;
+
+@Override 
+XLiteral returns XExpression:
+	XBooleanLiteral |
+	XNumberLiteral |
+	XNullLiteral |
+	XStringLiteral |
+	JpArrayLiteral
+;
+
+// We need an EObject instead of a simple String since we then
+// need to find the corresponding node (and offset) with NodeModelUtils
+// in order to associate dimensions with indexes
+JpArrayDimension:
+	{JpArrayDimension} '['
+;
+
+JpFeatureCallWithArrayAccess returns XExpression:
+	XFeatureCall (
+		=>({JpArrayAccessExpression.array=current}
+		indexes+=JpIndex (=>indexes+=JpIndex)*)
+	)?
+;
+
+// inherit XPostfixOperation, reuse it's code
+JpPrefixOperation returns XPostfixOperation:
+	{JpPrefixOperation}
+;
+
+JpIndex returns XExpression:
+	{JpIndex}
+	'[' indexes+=JpRange (',' indexes+=JpRange)* ']'
+;
+
+JpRange returns XExpression:
+	{JpPrefixOperation} feature=[types::JvmIdentifiableElement|':'] operand=XAdditiveExpression 
+	| {JpPrefixOperation} feature=[types::JvmIdentifiableElement|':'] 
+	| XAdditiveExpression (
+		=>({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|':'])? 
+	   |=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|':'] rightOperand=XAdditiveExpression)
+	)
+;
+
+JpLetVarDeclaration returns XVariableDeclaration:
+	=>({JpLetVarDeclaration}
+	'let' name=ValidID) (',' other+=JpAdditionalVariableDeclaration)* '=' right=XExpression
+;
+
+JpAdditionalVariableDeclaration returns XVariableDeclaration:
+	{JpAdditionalVariableDeclaration}
+	name=ValidID;
+
+JpWithOpenAs returns XExpression:
+	{JpWithOpenAs}
+	'with' open=JpWithOpenAsCall 'as' name=ValidID withExpression=JpStatementOrBlock
+//	(=>'else' else=JpStatementOrBlock)?
+;
+
+// add bitwise operators with their precedence
+@Override 
+XAndExpression returns XExpression:
+	XBitwiseInclusiveOrExpression (=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpAnd]) rightOperand=XBitwiseInclusiveOrExpression)*;
+
+XBitwiseInclusiveOrExpression returns XExpression:
+	XBitwiseExclusiveOrExpression (=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpInclusiveOr]) rightOperand=XBitwiseExclusiveOrExpression)*;
+
+OpInclusiveOr:
+	'|';
+
+XBitwiseExclusiveOrExpression returns XExpression:
+	XBitwiseAndExpression (=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpExclusiveOr]) rightOperand=XBitwiseAndExpression)*;
+
+OpExclusiveOr:
+	'^';
+
+XBitwiseAndExpression returns XExpression:
+	XEqualityExpression (=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpBitwiseAnd]) rightOperand=XEqualityExpression)*;
+
+OpBitwiseAnd:
+	'&';
+
+// add bitwise not ~
+@Override 
+OpUnary:
+	"!" | "-" | "+" | "~";
+
+@Override 
+OpMultiAssign:
+	'+=' | '-=' | '*=' | '/=' | '%=' | 
+	'&=' | '|=' | '^=' | // added in Jbase
+	'<' '<' '=' | 
+	'>' '>'? '>=';
+
+/**** Override x.base definition ****/
+
+@Override 
+XPrimaryExpression returns XExpression:
+	JpArrayConstructorCall |
+	XConstructorCall |
+	JpFeatureCallWithArrayAccess |
+	XLiteral |
+	XParenthesizedExpression
+;
+
+@Override
+XBlockExpression returns XExpression: 
+	{XBlockExpression} '{'
+		(expressions+=JpStatementOrBlock ';'?)*
+	'}'
+;
+
+@Override 
+XExpressionOrVarDeclaration returns XExpression:
+	XVariableDeclaration | JpLetVarDeclaration | XExpression
+;
+
+@Override 
+XIfExpression returns XExpression:
+	{XIfExpression}
+	'if' '(' if=XExpression ')' then=JpStatementOrBlock
+	(=>'else' else=JpStatementOrBlock)?
+;
+
+@Override 
+XForLoopExpression returns XExpression:
+	=>({XForLoopExpression}
+	'for' '(' declaredParam=JvmFormalParameter  (':'|'in')) forExpression=XExpression ')'
+		eachExpression=JpStatementOrBlock
+;
+
+@Override
+XPostfixOperation returns XExpression:
+	XMemberFeatureCall
+	( 
+		=>({XPostfixOperation.operand=current} feature=[types::JvmIdentifiableElement|OpPostfix]) 
+		|=>({JpArrayAccessExpression.array=current} '[' indexes+=XExpression ']'(=>'[' indexes+=XExpression ']')*)
+	)?
+;
+
+@Override 
+XBasicForLoopExpression returns XExpression:
+	{XBasicForLoopExpression}
+	'for' '('(initExpressions+=XExpressionOrVarDeclaration (',' initExpressions+=XExpressionOrVarDeclaration)*)? ';' 
+		expression=XExpression? ';' 
+		(updateExpressions+=XExpression (',' updateExpressions+=XExpression)*)? ')'
+		eachExpression=JpStatementOrBlock
+;
+
+@Override
+XImportDeclaration returns xtype::XImportDeclaration:
+	'import' (
+		(static?='static' extension?='extension'? importedType=[types::JvmDeclaredType|QualifiedNameInStaticImport] (wildcard?='*' | memberName=ValidID))
+		| importedType=[types::JvmDeclaredType|QualifiedName]
+		| {JpImportDeclaration} importedNamespace=QualifiedName 'as' alias=ValidID) ';'?
+;
+
+JpAssignment returns XAssignment:
+	{JpAssignment}
+;
+
+@Override 
+XAssignment returns XExpression :
+	=>({JpAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID]
+		'[' indexes+=JpRange (',' indexes+=JpRange)* ']'('[' indexes+=XExpression ']')*
+		OpSingleAssign) value=XAssignment |	
+	=>({XAssignment} feature=[types::JvmIdentifiableElement|FeatureCallID]
+		OpSingleAssign) value=XAssignment |
+	XOrExpression (
+		=>({JpConditionalExpression.if=current} '?') then=XExpression ':' else=XExpression
+		|=>({XBinaryOperation.leftOperand=current} feature=[types::JvmIdentifiableElement|OpMultiAssign]) rightOperand=XAssignment
+	)?
+;
+
+@Override 
+XMemberFeatureCall returns XExpression:
+	XPrimaryExpression
+	(=>({JpAssignment.assignable=current} '.' feature=[types::JvmIdentifiableElement|FeatureCallID]
+		'[' indexes+=JpRange (',' indexes+=JpRange)* ']'('[' indexes+=XExpression ']')*
+		OpSingleAssign) value=XAssignment
+	|=>({XAssignment.assignable=current} ('.'|explicitStatic?="::") feature=[types::JvmIdentifiableElement|FeatureCallID] OpSingleAssign) value=XAssignment
+	|=>({XMemberFeatureCall.memberCallTarget=current} ("."|nullSafe?="?."|explicitStatic?="::"))
+		('<' typeArguments+=JvmArgumentTypeReference (',' typeArguments+=JvmArgumentTypeReference)* '>')?
+		feature=[types::JvmIdentifiableElement|IdOrSuper]
+		( =>explicitOperationCall?='('
+			(memberCallArguments+=XExpression (',' memberCallArguments+=XExpression)*)? ')'
+		)? 
+	)*
+;
+
+/**
+ * Java needs blocks for try, catch, finally
+ */
+@Override 
+XTryCatchFinallyExpression returns XExpression:
+	{XTryCatchFinallyExpression}
+	'try' expression=XBlockExpression
+	(
+		catchClauses+=XCatchClause+
+		(=>'finally' finallyExpression=XBlockExpression)?
+	|	'finally' finallyExpression=XBlockExpression
+	)
+;
+
+
+@Override 
+XCatchClause :
+	=>'catch' '(' declaredParam=FullJvmFormalParameter ')' expression=XBlockExpression
+;
+
+
+/**
+ * Java needs block for synchronized
+ */
+@Override 
+XSynchronizedExpression returns XExpression:
+	=>({XSynchronizedExpression}
+	'synchronized' '(') param=XExpression ')' expression=XBlockExpression
+;
+
+@Override 
+XWhileExpression returns XExpression:
+	{XWhileExpression}
+	'while' '(' predicate=XExpression ')'
+		body=JpStatementOrBlock
+;
+
+@Override 
+XDoWhileExpression returns XExpression:
+	{XDoWhileExpression}
+   'do'
+       body=JpStatementOrBlock
+   'while' '(' predicate=XExpression ')'
+;
+

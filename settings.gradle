@@ -1,0 +1,3 @@
+include 'cn.simbaba.mydsl.jp'
+include 'cn.simbaba.mydsl.jp.ide'
+include 'cn.simbaba.mydsl.jp.tests'
