@@ -48,12 +48,13 @@ import cn.simbaba.mydsl.jp.JpIndex
 class JpTypeComputer extends XbaseWithAnnotationsTypeComputer {
 	@Inject
 	CommonTypeComputationServices services;
+	
 	@Inject 
 	JvmTypeReferenceBuilder.Factory factory;
 
 	JvmTypeReferenceBuilder jvmTypeReferenceBuilder;
 
-//	static final String OPEN_MOD_READ="r,r+,rb,rb+";
+	// static final String OPEN_MOD_READ="r,r+,rb,rb+";
 	static final String OPEN_MOD_WRITE="w,w+,wb,wb+";
 	static final String OPEN_MOD_BINARY="rb,rb+,wb,wb+,ab,ab+";
 
@@ -88,6 +89,9 @@ class JpTypeComputer extends XbaseWithAnnotationsTypeComputer {
 		return jvmTypeReferenceBuilder;
 	}
 
+	/**
+	 * support let x,_,z = a
+	 */
 	override protected addLocalToCurrentScope(XVariableDeclaration localVariable, ITypeComputationState state) {
 		if (localVariable.name != '_') {
 			super.addLocalToCurrentScope(localVariable, state)
@@ -106,6 +110,9 @@ class JpTypeComputer extends XbaseWithAnnotationsTypeComputer {
 		}
 	}
 
+	/**
+	 * let x,y,z = a
+	 */
 	def protected _computeTypes(JpLetVarDeclaration expr, ITypeComputationState state) {
 		val actualType = state.computeTypes(expr.right).actualExpressionType
 		val typeBuilder = getJvmTypeReferenceBuilder(expr);
@@ -127,6 +134,11 @@ class JpTypeComputer extends XbaseWithAnnotationsTypeComputer {
 		}
 	}
 
+	/**
+	 * with open as f {
+	 *   expression
+	 * }
+	 */
 	def protected _computeTypes(JpWithOpenAsImplCustom expr, ITypeComputationState state) {
 		val expressionState = state.withoutExpectation;
 		val actualType = expressionState.computeTypes(expr.open);
@@ -175,12 +187,19 @@ class JpTypeComputer extends XbaseWithAnnotationsTypeComputer {
 		}
 	}
 	
+	/**
+	 * JpIndex composite of JpRange
+	 * [1,2:, 3:4]
+	 */
 	def protected _computeTypes(JpIndex expression, ITypeComputationState state) {
 		for (index: expression.indexes) {
 			state.withoutExpectation().computeTypes(index);
 		}
 	}
 
+	/**
+	 * if JpRange only has a ':' -> 0:-999_999_999
+	 */
 	def protected _computeTypes(XPostfixOperation expr, ITypeComputationState state) {
 		val feaureName = expr.getConcreteSyntaxFeatureName();
 		if (expr.operand === null && feaureName == ":") {
@@ -195,6 +214,9 @@ class JpTypeComputer extends XbaseWithAnnotationsTypeComputer {
 		super.computeTypes(expr, state)
 	}
 
+	/**
+	 * try compute 1+a, but a+1 is simple
+	 */
 	def protected _computeTypes(XBinaryOperationImpl expr, ITypeComputationState state) {
 		val rightOperand = expr.rightOperand;
 		val leftOperand = expr.leftOperand;
@@ -210,6 +232,9 @@ class JpTypeComputer extends XbaseWithAnnotationsTypeComputer {
 		}
 	}
 
+	/**
+	 * support a[1,2][2]
+	 */
 	def protected _computeTypes(JpArrayAccessExpression arrayAccess, ITypeComputationState state) {
 		val actualType = state.withNonVoidExpectation.computeTypes(arrayAccess.array).actualExpressionType
 
@@ -245,10 +270,9 @@ class JpTypeComputer extends XbaseWithAnnotationsTypeComputer {
 		return currentType
 	}
 	
-	private def getReferenceOwner(ITypeComputationState state) {
-		state.referenceOwner
-	}
-	
+	/**
+	 * support a[1,:,1:2]=9
+	 */
 	def protected _computeTypes(JpAssignment assignment, ITypeComputationState state) {
 		val candidates = state.getLinkingCandidates(assignment)
 		val best = getBestCandidate(candidates);
@@ -281,14 +305,17 @@ class JpTypeComputer extends XbaseWithAnnotationsTypeComputer {
 	def protected _computeTypes(JpArrayConstructorCall call, ITypeComputationState state) {
 		checkArrayIndexHasTypeInt(call.indexes, state)
 		val typeReference = services.typeReferences.createTypeRef(call.type)
-		val lightweight = getReferenceOwner(state).toLightweightTypeReference(typeReference)
+		val lightweight = state.referenceOwner.toLightweightTypeReference(typeReference)
 		var arrayTypeRef = lightweight
+		
 		for (i : 0..<call.dimensions.size) {
-			arrayTypeRef = getReferenceOwner(state).newArrayTypeReference(arrayTypeRef)
+			arrayTypeRef = state.referenceOwner.newArrayTypeReference(arrayTypeRef)
 		}
+		
 		if (call.arrayLiteral !== null) {
 			state.withExpectation(arrayTypeRef).computeTypes(call.arrayLiteral)
 		}
+		
 		state.acceptActualType(arrayTypeRef)
 	}
 
@@ -309,6 +336,7 @@ class JpTypeComputer extends XbaseWithAnnotationsTypeComputer {
 
 	private def componentTypeOfArrayAccess(JpAssignment arrayAccess, LightweightTypeReference type, ITypeComputationState state, EStructuralFeature featureForError) {
 		var currentType = type
+		
 		for (index : arrayAccess.indexes) {
 			if (currentType instanceof ArrayTypeReference) {
 				currentType = currentType.componentType
