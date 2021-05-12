@@ -1,0 +1,8 @@
+import cn.centipede.numpy.Numpy as np
+
+script Xyz by simbaba
+
+var a= np.arange(12).reshape(3,4)
+var b= a[2:][1]
+
+b.dump()

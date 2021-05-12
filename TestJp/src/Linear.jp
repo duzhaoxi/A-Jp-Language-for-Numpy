@@ -1,0 +1,43 @@
+/*** 
+ * @author: simbaba 
+ * @date: 2020/12/1 
+ */
+import cn.centipede.numpy.Numpy as np
+import cn.centipede.numpy.NDArray
+
+
+class Linear {
+	x: NDArray
+	w: NDArray
+	b: NDArray
+	w_gradient: NDArray
+	b_gradient: NDArray
+
+	def init(int inChannel, int outChannel) {
+		var scale = Math.sqrt(inChannel/2.0)
+		w = np.random.standard_normal(inChannel, outChannel) / scale
+        b = np.random.standard_normal(outChannel) / scale
+        w_gradient = np.zeros(inChannel, outChannel)
+        b_gradient = np.zeros(outChannel)
+	}
+	
+	def forward(NDArray x) {
+        this.x = x
+        var x_forward = np.dot(x, w) + b
+        return x_forward
+    }
+
+    def backward(NDArray delta, double learning_rate) {
+        // 梯度计算
+        var shape = this.x.shape
+		var batch_size = shape[0]
+        w_gradient = np.dot(x.T, delta) / batch_size  // bxin bxout
+        b_gradient = np.sum(delta, 0) / batch_size 
+        var delta_backward = np.dot(delta, w.T)      // bxout inxout
+        // 反向传播
+        w -= w_gradient * learning_rate
+        b -= b_gradient * learning_rate 
+
+        return delta_backward     
+   	}
+}

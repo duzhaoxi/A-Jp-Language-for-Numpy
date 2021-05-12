@@ -1,0 +1,120 @@
+
+import cn.centipede.numpy.Numpy as np
+import cn.centipede.numpy.NDArray
+import java.util.ArrayList
+
+class Conv {
+	stride: int
+	pad: int
+	x: NDArray
+	k: NDArray
+	b: NDArray
+	k_gradient: NDArray
+	b_gradient: NDArray
+	image_col: ArrayList<NDArray>
+
+	def init(int[] kernel_shape, int stride, int pad) {
+        let width, height,in_channel, out_channel = kernel_shape
+
+        this.stride = stride
+        this.pad = pad
+
+        var scale = Math.sqrt(3*in_channel*width*height/out_channel)
+        k = np.random.standard_normal(kernel_shape) / scale
+        b = np.random.standard_normal(out_channel) / scale
+        k_gradient = np.zeros(kernel_shape)
+        b_gradient = np.zeros(out_channel)
+        image_col = new ArrayList<NDArray>();
+    }
+
+    def init(int[] kshape) {
+    	var stride = 1;
+    	var pad = 0;
+        let width, height,in_channel, out_channel = kshape
+
+        this.stride = stride
+        this.pad = pad
+
+        var scale = Math.sqrt(3*in_channel*width*height/out_channel)
+        k = np.random.standard_normal(kshape) / scale
+        b = np.random.standard_normal(out_channel) / scale
+        k_gradient = np.zeros(kshape)
+        b_gradient = np.zeros(out_channel)
+        image_col = new ArrayList<NDArray>();
+    }
+
+    def forward(NDArray x) {
+        this.x = x
+
+        if (pad != 0) {
+            this.x = np.pad(this.x, new int[][]{{0,0},{pad,pad},{pad,pad},{0,0}})
+        }
+
+		var xshape = this.x.shape
+        let bx,wx,_,_ = xshape 
+
+		// kernel的宽、高、通道数、个数
+		var kshape = this.k.shape
+        let wk,_,_,nk = kshape
+
+        // self.stride + 1  # 返回的特征图尺寸    
+        var feature_w = (wx - wk) / this.stride + 1
+
+        var feature = np.zeros(bx, feature_w, feature_w, nk)
+        image_col.clear()
+
+        var kernel = this.k.reshape(-1, nk)
+        for (var i = 0; i < bx; i++) {
+        	var xi = x[i]
+            var imagecol = Img2Col.img2col(xi, wk, stride)
+            var xx = np.dot(imagecol, kernel)+this.b
+            //feature.set(xx.reshape(feature_w, feature_w, nk), i)
+            feature[i]=xx.reshape(feature_w, feature_w, nk)
+            image_col.add(imagecol)
+        }
+        return feature
+   }
+   
+   def backward(NDArray delta, double learning_rate) {
+        var xshape = this.x.shape(); // batch,14,14,inchannel
+        let bx, wx, hx = xshape;
+
+        var kshape = this.k.shape(); // 5,5,inChannel,outChannel
+        let wk, hk, ck = kshape;
+        var dshape = delta.shape();  // batch,10,10,outChannel
+        let bd, hd, cd = dshape;
+
+        // self.k_gradient,self.b_gradient
+        var delta_col = delta.reshape(bd, -1, cd);
+        for (var i = 0; i < bx; i++) {
+            this.k_gradient+=np.dot(this.image_col.get(i).T(), delta_col.get(i)).reshape(this.k.shape());
+        }
+
+        this.k_gradient = this.k_gradient / bx;
+        this.b_gradient = this.b_gradient + np.sum(delta_col, new int[]{0, 1});
+        this.b_gradient = this.b_gradient / bx;
+
+        // delta_backward
+        var delta_backward = np.zeros(xshape);
+        var k_180 = np.rot90(this.k, 2, new int[]{0,1});
+        k_180 = np.swapaxes(k_180, 2, 3);
+        var k_180_col = k_180.reshape(-1, ck);
+
+        var pad_delta = delta;
+        var pad = (hx-hd+hk-1) / 2;
+		var pads = new int[][]{{0,0},{pad, pad},{pad, pad},{0,0}};
+
+        if (hd-hk+1 != hx) {
+            pad_delta = np.pad(delta, pads)
+        }
+
+        for (var i = 0; i < bx; i++) {
+            var pad_delta_col = Img2Col.img2col(pad_delta[i], wk, stride);
+            delta_backward.set(np.dot(pad_delta_col, k_180_col).reshape(wx,hx,ck), i);
+        }
+
+        this.k = this.k - this.k_gradient * learning_rate;
+        this.b = this.b - this.b_gradient * learning_rate;
+        return delta_backward;
+    }
+}

@@ -1,0 +1,37 @@
+
+import cn.centipede.numpy.Numpy as np
+import cn.centipede.numpy.NDArray
+
+
+class Pool {
+	feature_mask: NDArray
+	
+	def forward(NDArray x) {
+        var xshape = x.shape();
+        let b,w,h,c = xshape;
+        var feature_w = w / 2;
+        var feature = np.zeros(new int[]{b, feature_w, feature_w, c});
+
+        // record postion info of the maximum pool for backward.
+        this.feature_mask = np.zeros(new int[]{b, w, h, c});
+
+        for (var bi = 0; bi < b; bi++) {
+            for (var ci = 0; ci < c; ci++) {
+                for (var i = 0; i < feature_w; i++) {
+                    for (var j = 0; j < feature_w; j++) {
+                    	var dat = x.get(new int[][]{{bi},{i*2,i*2+2},{j*2,j*2+2}, {ci}});
+                        feature[bi, i, j, ci] = np.max(dat);
+                        var index = np.argmax(dat)
+                        this.feature_mask[bi, i*2+index/2, j*2+index%2, ci] = 1;
+                        //this.feature_mask.set(1, bi, i*2+index/2, j*2+index%2, ci);
+                    }
+                }
+            }
+        }
+        return feature;
+    }
+
+    def backward(NDArray delta) {
+        return np.repeat(np.repeat(delta, 2, 1), 2, 2)*(this.feature_mask);
+    }	
+}

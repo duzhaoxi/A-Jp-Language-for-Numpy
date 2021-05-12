@@ -1,0 +1,122 @@
+
+
+import cn.centipede.numpy.Numpy as np
+import cn.centipede.npz.NpzFile
+import cn.centipede.numpy.NDArray
+import cn.centipede.model.data.MNIST
+
+class CNN {
+	conv1:Conv
+    conv2:Conv
+    relu1:Relu
+    relu2:Relu
+	pool1:Pool
+	pool2:Pool
+	nn: Linear
+	softmax:Softmax
+
+	def init() {
+		conv1 = new Conv(new int[]{5, 5, 1, 6});
+	    conv2 = new Conv(new int[]{5, 5, 6, 16});
+	    relu1 = new Relu();
+	    relu2 = new Relu();
+	
+	    pool1 = new Pool();
+	    pool2 = new Pool();
+	    nn  = new Linear(256, 10);
+	    softmax = new Softmax();
+	}
+	
+	def loadNpz(NpzFile npz) {
+        conv1.k = npz.get("k1");
+        conv1.b = npz.get("b1");
+        conv2.k = npz.get("k2");
+        conv2.b = npz.get("b2");
+        nn.w = npz.get("w3");
+        nn.b = npz.get("b3");
+    }
+	
+	def onehot(NDArray targets, int num) {
+        var result = np.zeros(num, 10);
+        for(var i = 0; i < num; i++) {
+            result.set(1, i, targets.get(i).asInt());
+        }
+        return result;
+    }
+	
+	def train() {
+        var mnist = MNIST.numpy(true); // train=true
+        var targets = mnist[1];
+        var data = mnist[0].reshape(60000, 28, 28, 1).divide(255);
+        targets = onehot(targets, 60000);
+
+        conv1 = new Conv(new int[]{5,5,1,6});   // 24x24x6
+        relu1 = new Relu();
+        pool1 = new Pool();                     // 12x12x6
+        conv2 = new Conv(new int[]{5,5,6,16});  // 8x8x16
+        relu2 = new Relu();
+        pool2 = new Pool();                     // 4x4x16
+        nn = new Linear(256, 10);
+        softmax = new Softmax();
+
+        var lr = 0.01;
+        var batch = 3;
+
+        for (var epoch =0; epoch < 1; epoch++) {
+            for (var i = 0; i < 6000; i+=batch) {
+                var X = data.get(new int[][]{{i, i+batch}});
+                var Y = targets.get(new int[][]{{i, i+batch}});
+
+                var predict = conv1.forward(X);
+                predict = relu1.forward(predict);
+                predict = pool1.forward(predict);
+                predict = conv2.forward(predict);
+                predict = relu2.forward(predict);
+                predict = pool2.forward(predict);
+                predict = predict.reshape(batch, -1);
+                predict = nn.forward(predict);
+
+                var delta = softmax.loss(predict, Y);
+                delta = nn.backward(delta, lr);
+                delta = delta.reshape(batch, 4, 4, 16);
+                delta = pool2.backward(delta);
+                delta = relu2.backward(delta);
+                delta = conv2.backward(delta, lr);
+                delta = pool1.backward(delta);
+                delta = relu1.backward(delta);
+ 
+                conv1.backward(delta, lr);
+            }
+            lr *= Math.pow(0.95, epoch+1);
+        }
+    }
+
+    def predict(NDArray X) {
+        var x = X.reshape(np.newaxis, np.ALL);
+
+        var predict = conv1.forward(x);
+        predict = relu1.forward(predict);
+        predict = pool1.forward(predict);
+        predict = conv2.forward(predict);
+        predict = relu2.forward(predict);
+        predict = pool2.forward(predict);
+        predict = predict.reshape(1, -1);
+        predict = nn.forward(predict);
+
+        predict = softmax.predict(predict);
+        return np.argmax(predict);
+    }
+
+	def eval() {
+        var mnist = MNIST.numpy(false); // train=false
+        mnist[1].get(1).dump(); // lable
+
+        var test = mnist[0].reshape(10000, 28, 28, 1);
+        // System.out.println(test.shape());
+        // test.index(1).reshape(28,28).dump();
+
+        var img2col = Img2Col.img2col(test.get(1), 5, 1);
+        System.out.println(img2col.shape());
+    }
+	
+}

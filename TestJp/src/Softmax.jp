@@ -1,0 +1,41 @@
+
+import cn.centipede.numpy.Numpy as np
+import cn.centipede.numpy.NDArray
+
+class Softmax {
+	softmax: NDArray
+
+	def loss(NDArray predict, NDArray label) {
+        var pdimens = predict.shape();
+        var batchsize = pdimens[0];
+
+        predict(predict);
+
+        var delta = np.zeros(pdimens);
+        var loss = 0.0;
+
+        for (var i=0; i < batchsize; i++) {
+            var label_i = label[i];
+            var softmanx_i = this.softmax[i];
+            delta[i]=softmanx_i-label_i;
+            loss -= np.sum(np.log(softmanx_i)*label_i);
+        }
+
+        loss /= batchsize;
+        System.out.printf("Softmax: loss=%f\n", loss);
+        return delta;
+    }
+    
+    def predict(NDArray predict) {
+        var batchsize = predict.shape[0];
+
+        softmax = np.zeros(predict.shape());
+
+        for (var  i=0; i < batchsize; i++) {
+            var predict_tmp = predict[i]-np.max(predict[i]);
+            predict_tmp = np.exp(predict_tmp);
+            softmax[i]=predict_tmp/np.sum(predict_tmp);
+        }
+        return softmax;
+    }
+}

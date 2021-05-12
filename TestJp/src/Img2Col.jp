@@ -1,0 +1,27 @@
+
+
+import cn.centipede.numpy.Numpy as np
+import cn.centipede.numpy.NDArray
+
+script Img2Col by duzhaoxi
+
+def img2col(NDArray x, int ksize, int stride) {
+	var xshape = x.shape
+	let wx,_,cx = xshape // [width,height,channel]
+	
+	var feature_w = (wx - ksize) / stride + 1    // stride + 1  返回的特征图尺寸 
+	
+	var imageCol = np.zeros(feature_w*feature_w, ksize*ksize*cx)
+	var num = 0
+	
+	for (var i=0; i < feature_w; i++) {
+	    for (var j=0; j < feature_w; j++) {
+	        var range = new int[][]{{i*stride,i*stride+ksize}, {j*stride,j*stride+ksize}};
+	        var get = x.get(range).reshape(-1)
+	        np.set(imageCol, get, num)
+	        num++
+	    }
+	}
+	return imageCol
+}
+

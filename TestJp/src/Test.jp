@@ -1,0 +1,43 @@
+import cn.centipede.model.data.MNIST
+import cn.centipede.npz.NpzFile
+import cn.centipede.numpy.Numpy as np
+
+script Mnist by duzhaoxi
+
+
+var mnist = MNIST.numpy(false); // train=false
+var cnn = new CNN();
+
+with open("mnist.npz", "rb") as f {
+	var npz = new NpzFile(f);
+	cnn.loadNpz(npz);
+}
+
+np.random.seed(System.currentTimeMillis());
+var rand = np.random.randint(10000);
+
+var label = mnist[1].row(rand);
+var X = mnist[0].reshape(10000, 28, 28, 1)[rand];
+
+var actual = cnn.predict(X);
+
+X.reshape(28,28).dump();
+System.out.printf("rand=%d, label=%d, predict=%d\n", rand, label.asInt(), actual);
+
+var a = np.arange(24).reshape(2,3,4)
+let a1 = a.shape[0]
+println("维度:"+a1)
+
+var c = new int[]{1,2}
+println("数组:"+c[0])
+
+var b = a[:-1,2]
+b[0] = 9
+b.dump
+
+
+
+
+
+
+ 

@@ -1,0 +1,19 @@
+
+import cn.centipede.numpy.Numpy as np
+import cn.centipede.numpy.NDArray
+
+
+class Relu {
+    x: NDArray
+
+    def forward(NDArray x) {
+        this.x = x;
+        return np.maximum(x, 0.0);
+    }
+
+    def backward(NDArray delta) {
+        //delta[self.x<0] = 0;
+        np.checkset(delta, x, 0.0, 0.0);
+        return delta;
+    }
+}
